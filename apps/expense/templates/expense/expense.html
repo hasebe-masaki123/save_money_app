@@ -1,4 +1,36 @@
 {% extends "base.html" %}
 {% block content %}
+<main>
+    <h2>支出の入力</h2>
 
-{% end block%}
+    <!-- 日付の入力 -->
+    <label for="date">
+        日付：
+        <input id="date" type="text" name="date" />
+    </label>
+    <!-- 支出額の入力 -->
+    <label for="expense">
+        支出額：
+        <input id="expense" type="number" name="expense" />
+    </label>
+
+ <!-- カテゴリの入力 -->
+    <label for="category">
+        カテゴリ：
+        <input id="category" type="text" name="category" />
+    </label>
+
+
+    <!-- メモの入力 -->
+    <label for="memo">
+        メモ：
+        <input id="memo" type="text" name="memo" />
+    </label>
+
+    
+
+
+</main>
+
+
+{% endblock %}

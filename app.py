@@ -13,19 +13,22 @@ def create_app():
     app = Flask(__name__)
 
     BASE_DIR = Path(__file__).resolve().parent
-    app.config.update(
-        SECRET_KEY="dev-secret-key",
-        SQLALCHEMY_DATABASE_URI=f"sqlite:///{BASE_DIR / 'app.db'}",
-        SQLALCHEMY_TRACK_MODIFICATIONS=False,
-    )
+
+    # MySQLの場合の設定例
+    # app.config.update(
+    #     SECRET_KEY="dev-secret-key",
+    #     SQLALCHEMY_DATABASE_URI=f"sqlite:///{BASE_DIR / 'app.db'}",
+    #     SQLALCHEMY_TRACK_MODIFICATIONS=False,
+    # )
+
     db.init_app(app)
     migrate.init_app(app, db)
     login_manager.init_app(app)
     login_manager.login_view = "auth.login"
 
     from apps.auth import auth_bp
-    from apps.top import main_bp
-    from apps.calendar import main_bp
+    from apps.top import top_bp
+    from apps.calendar import calendar_bp
 
 
     app.register_blueprint(auth_bp)

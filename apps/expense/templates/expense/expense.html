@@ -1,36 +1,39 @@
 {% extends "base.html" %}
 {% block content %}
 <main>
-    <h2>支出の入力</h2>
+    <h2>収入の入力</h2>
 
-    <!-- 日付の入力 -->
-    <label for="date">
-        日付：
-        <input id="date" type="text" name="date" />
-    </label>
-    <!-- 支出額の入力 -->
-    <label for="expense">
-        支出額：
-        <input id="expense" type="number" name="expense" />
-    </label>
+    <form action="/income" method="post" class="form-box">
 
- <!-- カテゴリの入力 -->
-    <label for="category">
-        カテゴリ：
-        <input id="category" type="text" name="category" />
-    </label>
+        <!-- 日付 -->
+        <div class="row">
+            <label for="date">日付：</label>
+            <input id="date" type="text" name="date">
+        </div>
 
+        <!-- 収入額 -->
+        <div class="row">
+            <label for="income">収入額：</label>
+            <input id="income" type="number" name="income">
+        </div>
 
-    <!-- メモの入力 -->
-    <label for="memo">
-        メモ：
-        <input id="memo" type="text" name="memo" />
-    </label>
+        <!-- カテゴリ -->
+        <div class="row">
+            <label for="category">カテゴリ：</label>
+            <input id="category" type="text" name="category">
+        </div>
 
-    
+        <!-- メモ（大きいエリア） -->
+        <div class="row memo-row">
+            <label for="memo">メモ：</label>
+            <textarea id="memo" name="memo"></textarea>
+        </div>
 
-
+        <!-- ボタン -->
+        <div class="button-area">
+            <button type="reset">キャンセル</button>
+            <button type="submit">確定</button>
+        </div>
+    </form>
 </main>
-
-
 {% endblock %}

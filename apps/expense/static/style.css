@@ -1,0 +1,89 @@
+/* ------------------------------
+   ページ全体を上下左右の中央に配置
+------------------------------ */
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    min-height: 100vh;       /* 縦方向の中央配置 */
+    background: #fff;
+}
+
+/* main の中央寄せ（bodyの中でさらに微調整用） */
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+/* ------------------------------
+   フォームの外枠
+------------------------------ */
+.form-box {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    width: 450px;      /* 横幅（画像と同じくらい） */
+    padding: 20px;
+}
+
+/* ------------------------------
+   各行（ラベル＋入力欄）横並び
+------------------------------ */
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* ラベル（左側の文字） */
+.row label {
+    font-size: 20px;
+    width: 120px;   /* 行の左側の揃えを固定 */
+}
+
+/* ------------------------------
+   通常の input フィールド
+------------------------------ */
+.row input {
+    width: 250px;
+    height: 40px;
+    padding: 5px;
+    font-size: 18px;
+    border: 2px solid #555;
+    border-radius: 8px;
+}
+
+/* ------------------------------
+   メモ欄（textarea）
+------------------------------ */
+.memo-row textarea {
+    width: 250px;
+    height: 130px;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #555;
+    border-radius: 12px;
+    resize: none;   /* サイズ変更できないように */
+}
+
+/* ------------------------------
+   ボタンのレイアウト
+------------------------------ */
+.button-area {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.button-area button {
+    padding: 8px 18px;
+    font-size: 16px;
+    border: 2px solid #555;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+}

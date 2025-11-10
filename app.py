@@ -4,15 +4,34 @@ from flask_migrate import Migrate
 from flask_login import LoginManager
 from pathlib import Path
 
+from flask_wtf import FlaskForm 
+from wtforms import StringField, SubmitField
+from wtforms.validators import DataRequired 
+import os
+from flask_wtf import CSRFProtect
+
+
 db = SQLAlchemy()
 migrate = Migrate()
 login_manager = LoginManager()
 
 
+
 def create_app():
     app = Flask(__name__)
 
+    #CSRFトークンのために必要な秘密鍵
+    app.secret_key = os.environ.get("SECRET_KEY")
+    #csrf保護を有効化
+    CSRFProtect(app)
+
     BASE_DIR = Path(__file__).resolve().parent
+
+    #全ページにclickjacking対策を適応させるコード
+    @app.after_request
+    def add_security_headers(response):
+        response.headers['X-Frame-Options'] = 'DENY'
+        return response
 
     # MySQLの場合の設定例
     # app.config.update(
@@ -36,3 +55,4 @@ def create_app():
     app.register_blueprint(transaction_bp)
 
     return app
+

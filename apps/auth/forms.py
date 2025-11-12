@@ -9,7 +9,7 @@ class SignUpForm(FlaskForm):
         validators=[
             DataRequired(""),
             Email(""),
-            regexp('^[a-zA-Z0-9_]+$', message='英数字とアンダースコアのみ使用できます。'),
+            # regexp('^[a-zA-Z0-9_]+$@.', message='英数字とアンダースコアのみ使用できます。'),
         ],
     )
     password = PasswordField(
@@ -20,7 +20,7 @@ class SignUpForm(FlaskForm):
             regexp('^[a-zA-Z0-9_]+$', message='英数字とアンダースコアのみ使用できます。'),
         ],
         )
-    confirm_password = PasswordField(
+    password_confirm = PasswordField(
         "パスワード（確認用）",
         validators=[
             DataRequired(""),
@@ -37,7 +37,7 @@ class LoginForm(FlaskForm):
         validators=[
             DataRequired(""),
             Email(""),
-            regexp('^[a-zA-Z0-9_]+$', message='英数字とアンダースコアのみ使用できます。'),
+            # regexp('^[a-zA-Z0-9_]+$@.', message='英数字とアンダースコアのみ使用できます。'),
         ],
     )
     password = PasswordField(

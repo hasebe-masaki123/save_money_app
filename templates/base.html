@@ -9,10 +9,11 @@
     <main>
         {% block content %}{% endblock %}
     </main>
-    <hr>
-    <footer>
-        <p>© 2025 家計簿アプリ</p>
-    </footer>
+    {% set hidden_routes = ['auth.login', 'auth.signup', 'auth.logout'] %}
+    {% if request.endpoint not in hidden_routes %}
+        {% include "bottom_nav.html" %}
+    {% endif %}
 
+    
 </body>
 </html>

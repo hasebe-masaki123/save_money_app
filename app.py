@@ -1,3 +1,4 @@
+from dotenv import load_dotenv
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -8,11 +9,18 @@ from flask_wtf import CSRFProtect
 
 
 db = SQLAlchemy()
+csrf = CSRFProtect()
 migrate = Migrate()
 login_manager = LoginManager()
 
+# login_view属性に未ログイン時にリダイレクトするエンドポイントを指定する
+login_manager.login_view = "auth.login"
+login_manager.login_message = ""
+
 
 def create_app():
+    
+    load_dotenv()
     app = Flask(__name__)
 
     #CSRFトークンのために必要な秘密鍵
@@ -54,7 +62,7 @@ def create_app():
     # from apps.goal import views as goal_views
     # from apps.graph import views as graph_views
 
-    app.register_blueprint(auth_views.auth)
+    app.register_blueprint(auth_views.auth, url_prefix="/auth")
     
     # app.register_blueprint(top_views.top)
     # app.register_blueprint(calendar_views.calendar)
@@ -67,3 +75,10 @@ def create_app():
     
 
     return app
+
+
+app = create_app()
+
+if __name__ == "__main__":
+    app.run(debug=True)
+

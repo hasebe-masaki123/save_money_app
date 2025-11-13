@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+
+<form method="POST">
+    <head>
+    <meta charset="utf-8">
+    <title>通知一覧</title>
+    <h2>通知一覧</h2>
+        <table border="1">
+            <tr>
+                <th>日付</th><th>詳細</th>
+            </tr>
+            {% for n in notifications %}
+            <tr>
+                <td> {{ n.create_at }} </td><td> {{ n.detail }} </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+{% endblock %}

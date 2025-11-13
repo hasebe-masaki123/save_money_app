@@ -1,25 +1,61 @@
 {% extends "base.html" %}
 {% block content %}
+
 <h2>ログイン</h2>
+
 <form method="POST">
   {{ form.hidden_tag() }}
+
+  <!-- メールアドレス -->
   <div>
     {{ form.email.label }}
     {{ form.email(size=32) }}
     {% for error in form.email.errors %}
-      <span style="color: red;">{{ error }}</span>
+      <span class="error">{{ error }}</span>
     {% endfor %}
   </div>
-  <div>
+
+  <!-- パスワード入力欄 -->
+  <div class="password-box">
     {{ form.password.label }}
-    {{ form.password(size=32) }}
+    <div class="input-wrapper">
+      {{ form.password(size=32, id='password') }}
+      <i class="far fa-eye-slash" id="view"></i>
+    </div>
     {% for error in form.password.errors %}
-      <span style="color: red;">{{ error }}</span>
+      <span class="error">{{ error }}</span>
     {% endfor %}
   </div>
+
+  <!-- 送信ボタン -->
   <div>
-    {{ form.submit() }}
+    {{ form.submit(class="btn") }}
   </div>
 </form>
-<p><a href="{{ url_for('auth.signup') }}">サインアップ</a></p>
+
+<p style="text-align:center; margin-top: 10px;">
+  <a href="{{ url_for('auth.signup') }}">サインアップ</a>
+</p>
+
+<!-- FontAwesome -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+<!-- JS -->
+<script>
+  const viewicon = document.getElementById('view');
+  const inputtype = document.getElementById('password');
+
+  viewicon.addEventListener('click', function () {
+    if (inputtype.type === 'password') {
+      inputtype.type = 'text';
+      viewicon.classList.remove('fa-eye-slash');
+      viewicon.classList.add('fa-eye');
+    } else {
+      inputtype.type = 'password';
+      viewicon.classList.remove('fa-eye');
+      viewicon.classList.add('fa-eye-slash');
+    }
+  });
+</script>
+
 {% endblock %}

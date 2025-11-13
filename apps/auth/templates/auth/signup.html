@@ -15,22 +15,36 @@
   </div>
 
   <!-- パスワード -->
-  <div>
+  <div style="display: flex; align-items: center;">
     {{ form.password.label }}
-    {{ form.password(size=32) }}
+    {{ form.password(size=32, id='password') }}
+    <button type="button" id="togglePassword" style="margin-left: 8px;">表示</button>
     {% for error in form.password.errors %}
     <span style="color: red;">{{ error }}</span>
     {% endfor %}
   </div>
 
   <!-- パスワード（確認用） -->
-  <div>
+  <div style="display: flex; align-items: center;">
     {{ form.password_confirm.label }}
-    {{ form.password_confirm(size=32) }}
+    {{ form.password_confirm(size=32, id='password_confirm') }}
+    <button type="button" id="togglePasswordConfirm" style="margin-left: 8px;">表示</button>
     {% for error in form.password_confirm.errors %}
     <span style="color: red;">{{ error }}</span><br>
     {% endfor %}
   </div>
+
+  <!-- フラッシュメッセージの表示 -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}" role="alert"
+           style="color: red; margin-top: 10px; padding: 8px; border-radius: 6px;">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
 
   <!-- 送信ボタン -->
   <div>
@@ -38,4 +52,30 @@
   </div>
 </form>
 <p><a href="{{ url_for('auth.login') }}">ログイン</a></p>
+
+<script>
+  const passwordInput = document.getElementById('password');
+  const togglePasswordBtn = document.getElementById('togglePassword');
+  togglePasswordBtn.addEventListener('click', function() {
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+      togglePasswordBtn.textContent = '非表示';
+    } else {
+      passwordInput.type = 'password';
+      togglePasswordBtn.textContent = '表示';
+    }
+  });
+
+  const passwordConfirmInput = document.getElementById('password_confirm');
+  const togglePasswordConfirmBtn = document.getElementById('togglePasswordConfirm');
+  togglePasswordConfirmBtn.addEventListener('click', function() {
+    if (passwordConfirmInput.type === 'password') {
+      passwordConfirmInput.type = 'text';
+      togglePasswordConfirmBtn.textContent = '非表示';
+    } else {
+      passwordConfirmInput.type = 'password';
+      togglePasswordConfirmBtn.textContent = '表示';
+    }
+  });
+</script>
 {% endblock %}

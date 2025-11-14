@@ -1,4 +1,97 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Graphs</h1>
+<h2>支出グラフ</h2>
+
+<div>
+    <label>月</label>
+    <input type="month" id="monthSelect" value="{{ current_month }}">
+    <button id="reloadBtn">表示</button>
+</div>
+
+<!-- 週別グラフ -->
+<canvas id="weekGraph"  width="375" height="300" style="max-width: 100% !important;"></canvas>
+
+<!-- カテゴリ別 合計金額一覧 -->
+<h3>カテゴリ別 合計金額</h3>
+<table id="totalList" border="1" style="width:100%; border-collapse:collapse;">
+    <thead>
+        <tr>
+            <th>カテゴリ</th>
+            <th>合計金額</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for cat, val in total_data.items() %}
+            <tr>
+                <td>{{ cat }}</td>
+                <td><span>￥</span>{{ val }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+let chartInstance = null;
+
+function drawWeeklyGraph(labels, datasetDict) {
+    const ctx = document.getElementById("weekGraph").getContext("2d");
+
+    if (chartInstance) {
+        chartInstance.destroy();
+    }
+
+    const categories = Object.keys(datasetDict);
+
+    const datasets = categories.map((cat, idx) => ({
+        label: cat,
+        data: datasetDict[cat],
+        backgroundColor: [
+            "rgba(54,162,235,0.7)",
+            "rgba(255,99,132,0.7)",
+            "rgba(75,192,192,0.7)",
+            "rgba(255,206,86,0.7)"
+        ][idx]
+    }));
+
+    chartInstance = new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: labels,
+            datasets: datasets
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: { stacked: true },
+                y: { stacked: true }
+            }
+        }
+    });
+}
+
+document.getElementById("reloadBtn").addEventListener("click", async () => {
+    const month = document.getElementById("monthSelect").value;
+
+    const res = await fetch(`/graphs/weekly-data?month=${month}`);
+    const json = await res.json();
+
+    // 週別グラフ更新
+    drawWeeklyGraph(json.week_labels, json.weekly);
+
+    // 合計金額一覧更新
+    const list = document.getElementById("totalList");
+    list.innerHTML = "";
+    Object.entries(json.total).forEach(([cat, amount]) => {
+        const li = document.createElement("li");
+        li.textContent = `${cat}：￥${amount}`;
+        list.appendChild(li);
+    });
+});
+
+// 初期描画
+drawWeeklyGraph({{ week_labels | tojson }}, {{ weekly_data | tojson }});
+</script>
+
 {% endblock %}

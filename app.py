@@ -60,10 +60,9 @@ def create_app():
     # from apps.saving import views as saving_views
     # from apps.fixed import views as fixed_views
     # from apps.goal import views as goal_views
-    # from apps.graph import views as graph_views
+    from apps.graph import views as graph_views
 
     app.register_blueprint(auth_views.auth, url_prefix="/auth")
-    
     # app.register_blueprint(top_views.top)
     # app.register_blueprint(calendar_views.calendar)
     # app.register_blueprint(expense_views.expense)
@@ -71,7 +70,7 @@ def create_app():
     # app.register_blueprint(saving_views.saving)
     # app.register_blueprint(fixed_views.fixed)
     # app.register_blueprint(goal_views.goal)
-    # app.register_blueprint(graph_views.graph)
+    app.register_blueprint(graph_views.graph, url_prefix="/graph")
     
 
     return app

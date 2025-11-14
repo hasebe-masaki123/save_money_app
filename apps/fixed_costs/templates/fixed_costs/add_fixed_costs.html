@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>固定費新規追加</title>
+    <style>
+        body {
+            font-family: "Noto Sans JP", sans-serif;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        label {
+            display: flex;
+            flex-direction: column;
+            font-size: 16px;
+        }
+
+        input, select {
+            padding: 8px;
+            font-size: 16px;
+            margin-top: 5px;
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .button-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .cancel {
+            background-color: #eee;
+        }
+
+        .add {
+            background-color: #f8f8f8;
+        }
+    </style>
+</head>
+<body>
+    <h1>固定費設定</h1>
+    <h2>固定費新規追加</h2>
+
+    <form method="post" action="/add_fixed_cost">
+        <label>
+            固定費名：
+            <input type="text" name="name" placeholder="固定費名を入力" required>
+        </label>
+
+        <label>
+            費用：
+            <input type="number" id="amount" name="amount" placeholder="費用を入力" required>
+            <span id="amountError" class="error">0以上の整数を入力してください</span>
+        </label>
+
+        <label>
+            日付を入力：
+            <div style="display: flex; gap: 10px;">
+                <select name="month" required>
+                    <option value="">月</option>
+                    <option value="1">1月</option>
+                    <option value="2">2月</option>
+                    <option value="3">3月</option>
+                    <option value="4">4月</option>
+                    <option value="5">5月</option>
+                    <option value="6">6月</option>
+                    <option value="7">7月</option>
+                    <option value="8">8月</option>
+                    <option value="9">9月</option>
+                    <option value="10">10月</option>
+                    <option value="11">11月</option>
+                    <option value="12">12月</option>
+                </select>
+
+                <select name="day" required>
+                    <option value="">日</option>
+                    <!-- JSで日数を動的に出す -->
+                </select>
+            </div>
+        </label>
+
+        <div class="button-row">
+            <button type="button" class="cancel" onclick="location.href='/fixed_costs'">キャンセル</button>
+            <button type="submit" id="submitBtn" class="add">追加</button>
+        </div>
+    </form>
+
+    <script>
+        // 日数生成
+        const daySelect = document.querySelector('select[name="day"]');
+        for (let d = 1; d <= 31; d++) {
+            const opt = document.createElement('option');
+            opt.value = d;
+            opt.textContent = d + '日';
+            daySelect.appendChild(opt);
+        }
+
+        // マイナスチェック
+        const amountInput = document.getElementById('amount');
+        const errorMessage = document.getElementById('amountError');
+        const submitBtn = document.getElementById('submitBtn');
+
+        amountInput.addEventListener('input', function () {
+            if (Number(this.value) < 0) {
+                errorMessage.style.display = 'block';
+                submitBtn.disabled = true;
+            } else {
+                errorMessage.style.display = 'none';
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

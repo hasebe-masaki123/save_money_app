@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>固定費の入力</title>
+    <style>
+        body {
+            font-family: "Noto Sans JP", sans-serif;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .month-nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px 0;
+            gap: 20px;
+            font-size: 20px;
+        }
+
+        .expense-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #ccc;
+            margin: 10px 0;
+            padding-bottom: 5px;
+        }
+
+        .expense-row input[type="number"] {
+            width: 150px;
+            padding: 5px;
+        }
+
+        .add-btn {
+            display: block;
+            width: 100%;
+            margin-top: 30px;
+            padding: 10px;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 10px;
+            display: none;
+            margin-left: 5px;
+        }
+
+        .form-error {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <button type="button" onclick="history.back()">キャンセル</button>
+        <h2>固定費の入力</h2>
+        <button type="submit" form="fixedForm" id="saveBtn">確定</button>
+    </div>
+
+    <!--  月ナビゲーション -->
+    <div class="month-nav">
+        <button type="button" id="prev-month">&lt;</button>
+        <span id="month-display">10月</span>
+        <button type="button" id="next-month">&gt;</button>
+    </div>
+
+    <form id="fixedForm" action="/fixed_costs" method="post">
+        <input type="hidden" name="month" id="month-input" value="10">
+
+        <!-- ▼ 日付だけを直接入力 ▼ -->
+        <div style="margin: 20px 0;">
+            <label>
+                日付：
+                <input type="number" name="day" min="1" max="31" required>
+            </label>
+        </div>
+
+        <div class="expense-row">
+            <label>住居費</label>
+            <div>
+                <input type="number" name="housing" class="amount-input" placeholder="費用を入力">
+                <span class="error-message">0以上の整数を入力してください</span>
+            </div>
+        </div>
+
+        <div class="expense-row">
+            <label>水道光熱費</label>
+            <div>
+                <input type="number" name="utilities" class="amount-input" placeholder="費用を入力">
+                <span class="error-message">0以上の整数を入力してください</span>
+            </div>
+        </div>
+
+        <div class="expense-row">
+            <label>通信費</label>
+            <div>
+                <input type="number" name="communication" class="amount-input" placeholder="費用を入力">
+                <span class="error-message">0以上の整数を入力してください</span>
+            </div>
+        </div>
+
+        <div class="expense-row">
+            <label>保険料</label>
+            <div>
+                <input type="number" name="insurance" class="amount-input" placeholder="費用を入力">
+                <span class="error-message">0以上の整数を入力してください</span>
+            </div>
+        </div>
+
+        <div class="expense-row">
+            <label>教育費</label>
+            <div>
+                <input type="number" name="education" class="amount-input" placeholder="費用を入力">
+                <span class="error-message">0以上の整数を入力してください</span>
+            </div>
+        </div>
+
+        <div class="expense-row">
+            <label>自動車維持費</label>
+            <div>
+                <input type="number" name="car" class="amount-input" placeholder="費用を入力">
+                <span class="error-message">0以上の整数を入力してください</span>
+            </div>
+        </div>
+
+        <div class="form-error" id="formError">
+            ※ 固定費はどれか1つ以上入力してください
+        </div>
+
+        <a href="/add_fixed_costs">
+            <button type="button" class="add-btn">固定費追加</button>
+        </a>
+
+    </form>
+
+    <!-- ▼ スクリプト ▼ -->
+    <script>
+        let currentMonth = 10;
+        const monthDisplay = document.getElementById("month-display");
+        const monthInput = document.getElementById("month-input");
+
+        document.getElementById("prev-month").addEventListener("click", () => {
+            currentMonth = currentMonth === 1 ? 12 : currentMonth - 1;
+            updateMonthDisplay();
+        });
+
+        document.getElementById("next-month").addEventListener("click", () => {
+            currentMonth = currentMonth === 12 ? 1 : currentMonth + 1;
+            updateMonthDisplay();
+        });
+
+        function updateMonthDisplay() {
+            monthDisplay.textContent = `${currentMonth}月`;
+            monthInput.value = currentMonth;
+        }
+
+        // ▼ 即時バリデーション
+        const amountInputs = document.querySelectorAll('.amount-input');
+
+        amountInputs.forEach(input => {
+            input.addEventListener('input', () => {
+                const error = input.parentElement.querySelector('.error-message');
+                const value = input.value;
+
+                if (value === "") {
+                    error.style.display = "none"; // 空はOK
+                    return;
+                }
+
+                if (!/^\d+$/.test(value) || parseInt(value) < 0) {
+                    error.style.display = 'inline';
+                } else {
+                    error.style.display = 'none';
+                }
+            });
+        });
+
+        // ▼ 保存ボタン
+        document.getElementById('saveBtn').addEventListener('click', (e) => {
+            let hasError = false;
+            let filledCount = 0;
+
+            amountInputs.forEach(input => {
+                const value = input.value.trim();
+                const error = input.parentElement.querySelector('.error-message');
+
+                if (value !== "") filledCount++;
+
+                if (value !== "" && (!/^\d+$/.test(value) || parseInt(value) < 0)) {
+                    error.style.display = 'inline';
+                    hasError = true;
+                }
+            });
+
+            if (hasError) {
+                e.preventDefault();
+                return;
+            }
+
+            // ▼ 全部空ならエラー
+            if (filledCount === 0) {
+                document.getElementById('formError').style.display = 'block';
+                e.preventDefault();
+                return;
+            }
+
+            document.getElementById('formError').style.display = 'none';
+        });
+    </script>
+
+</body>
+
+</html>

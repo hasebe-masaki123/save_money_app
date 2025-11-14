@@ -1,0 +1,197 @@
+<!--同じやつ２つ作ってることに気付いた　いらない。-->
+<!-- <!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>固定費設定</title>
+<style>
+    body {
+        font-family: "Noto Sans JP", sans-serif;
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    h1 {
+        text-align: center;
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+
+    .month-control {
+        text-align: center;
+        margin: 15px 0;
+        font-size: 18px;
+    }
+
+    .month-control button {
+        background: none;
+        border: none;
+        font-size: 22px;
+        cursor: pointer;
+    }
+
+    .cost-item {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+    }
+
+    label {
+        font-size: 16px;
+        margin-bottom: 5px;
+    }
+
+    input {
+        padding: 8px;
+        font-size: 16px;
+    }
+
+    .error-message {
+        color: red;
+        font-size: 14px;
+        margin-top: 5px;
+        display: none;
+    }
+
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    header button {
+        padding: 8px 16px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    #addBtn {
+        display: block;
+        width: 100%;
+        padding: 12px 0;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 30px;
+        background-color: #f8f8f8;
+    }
+</style>
+</head>
+<body>
+
+    <header>
+        <button id="backBtn" onclick="history.back()">戻る</button>
+        <h1>固定費設定</h1>
+        <button id="saveBtn">保存</button>
+    </header>
+
+    <div class="month-control">
+        <button id="prevMonth">&lt;</button>
+        <span id="monthLabel">10月</span>
+        <button id="nextMonth">&gt;</button>
+    </div>
+
+    <div id="costList">
+        <div class="cost-item">
+            <label>住居費</label>
+            <input type="date">
+            <input type="number" placeholder="費用を入力" class="amount-input">
+            <span class="error-message">0以上の数字を入力してください</span>
+        </div>
+        <div class="cost-item">
+            <label>水道光熱費</label>
+            <input type="date">
+            <input type="number" placeholder="費用を入力" class="amount-input">
+            <span class="error-message">0以上の数字を入力してください</span>
+        </div>
+        <div class="cost-item">
+            <label>通信費</label>
+            <input type="date">
+            <input type="number" placeholder="費用を入力" class="amount-input">
+            <span class="error-message">0以上の数字を入力してください</span>
+        </div>
+        <div class="cost-item">
+            <label>保険料</label>
+            <input type="date">
+            <input type="number" placeholder="費用を入力" class="amount-input">
+            <span class="error-message">0以上の数字を入力してください</span>
+        </div>
+        <div class="cost-item">
+            <label>教育費</label>
+            <input type="date">
+            <input type="number" placeholder="費用を入力" class="amount-input">
+            <span class="error-message">0以上の数字を入力してください</span>
+        </div>
+        <div class="cost-item">
+            <label>自動車維持費</label>
+            <input type="date">
+            <input type="number" placeholder="費用を入力" class="amount-input">
+            <span class="error-message">0以上の数字を入力してください</span>
+        </div>
+    </div>
+
+    <button id="addBtn">固定費追加</button>
+
+<script>
+    // 月切り替え処理
+    const monthLabel = document.getElementById('monthLabel');
+    let month = 10;
+
+    document.getElementById('prevMonth').onclick = () => {
+        month = month <= 1 ? 12 : month - 1;
+        monthLabel.textContent = month + '月';
+    };
+
+    document.getElementById('nextMonth').onclick = () => {
+        month = month >= 12 ? 1 : month + 1;
+        monthLabel.textContent = month + '月';
+    };
+
+    // 固定費追加ページへ
+    document.getElementById('addBtn').onclick = () => {
+        window.location.href = "add_fixed_costs.html";
+    };
+
+    // 入力チェック：マイナス・数字以外の場合は赤文字表示
+    const amountInputs = document.querySelectorAll('.amount-input');
+
+    amountInputs.forEach(input => {
+        input.addEventListener('input', () => {
+            const error = input.nextElementSibling;
+            const value = input.value.trim();
+
+            // 数字でない、または0未満ならエラー
+            if (!/^\d+(\.\d+)?$/.test(value) || parseFloat(value) < 0) {
+                error.style.display = 'block';
+            } else {
+                error.style.display = 'none';
+            }
+        });
+    });
+
+    // 保存ボタン押下時にエラーがある場合は送信を止める
+    document.getElementById('saveBtn').addEventListener('click', () => {
+        let hasError = false;
+        amountInputs.forEach(input => {
+            const value = input.value.trim();
+            const error = input.nextElementSibling;
+            if (!/^\d+(\.\d+)?$/.test(value) || parseFloat(value) < 0) {
+                error.style.display = 'block';
+                hasError = true;
+            } else {
+                error.style.display = 'none';
+            }
+        });
+
+        if (hasError) {
+            alert('費用は0以上の数字を入力してください');
+        } else {
+            // ここでサーバー送信処理など
+            alert('保存処理を実行'); // デモ用
+        }
+    });
+</script>
+
+</body>
+</html> -->

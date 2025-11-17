@@ -25,7 +25,7 @@ class FixedCategory(db.Model):
     # --- 関連（固定費テーブルとの紐づけ） ---
     fixeds = db.relationship('Fixed', backref='category', lazy=True)
     
-#支出
+#支出テーブル
 class Expense(db.Model):
     __tablename__ = 'expenses'
 
@@ -42,7 +42,7 @@ class Expense(db.Model):
     user = db.relationship('User', backref='expenses', lazy=True)
 
 class ExpenseCategory(db.Model):
-    __tablename__ = 'expense_category'
+    __tablename__ = 'expense_categories'
 
     category_id = db.Column(db.Integer, primary_key=True, autoincrement=True)  # 支出カテゴリID
     name = db.Column(db.String(30), nullable=False)  # カテゴリ名
@@ -50,7 +50,7 @@ class ExpenseCategory(db.Model):
     # --- リレーション（支出テーブルとの紐づけ） ---
     expenses = db.relationship('Expense', backref='expense_category', lazy=True)
 
-#収入
+#収入テーブル
 class Income(db.Model):
     __tablename__ = 'incomes'
 

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <title>支出の入力</title>
@@ -29,7 +30,9 @@
             font-size: 16px;
         }
 
-        input, select, textarea {
+        input,
+        select,
+        textarea {
             padding: 8px;
             font-size: 16px;
             margin-top: 5px;
@@ -68,6 +71,7 @@
         }
     </style>
 </head>
+
 <body>
     <h2>支出の入力</h2>
 
@@ -80,7 +84,7 @@
         <label>
             支出額：
             <input type="number" name="amount" id="amountInput" required>
-            <span class="error-message" id="amountError">0以上の数字を入力してね</span>
+            <span class="error-message" id="amountError">0以上の整数を入力してください</span>
         </label>
 
         <label>
@@ -131,7 +135,7 @@
         });
 
         // ▼ 「カテゴリ追加」選択時の処理
-        document.getElementById('categorySelect').addEventListener('change', function() {
+        document.getElementById('categorySelect').addEventListener('change', function () {
             if (this.value === 'add') {
                 const newCategory = prompt('新しいカテゴリ名を入力してください:');
                 if (newCategory) {
@@ -147,4 +151,5 @@
         });
     </script>
 </body>
+
 </html>

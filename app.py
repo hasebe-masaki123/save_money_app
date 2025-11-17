@@ -4,6 +4,7 @@ from flask_migrate import Migrate
 from flask_login import LoginManager
 from pathlib import Path
 
+
 db = SQLAlchemy()
 migrate = Migrate()
 login_manager = LoginManager()
@@ -14,12 +15,12 @@ def create_app():
 
     BASE_DIR = Path(__file__).resolve().parent
 
-    # MySQLの場合の設定例
-    # app.config.update(
-    #     SECRET_KEY="dev-secret-key",
-    #     SQLALCHEMY_DATABASE_URI=f"sqlite:///{BASE_DIR / 'app.db'}",
-    #     SQLALCHEMY_TRACK_MODIFICATIONS=False,
-    # )
+    #MySQLの場合の設定例
+    app.config.update(
+        SECRET_KEY="dev-secret-key",
+        SQLALCHEMY_DATABASE_URI=f"sqlite:///{BASE_DIR / 'app.db'}",
+        SQLALCHEMY_TRACK_MODIFICATIONS=False,
+    )
 
     db.init_app(app)
     migrate.init_app(app, db)

@@ -16,7 +16,7 @@ class Expense(db.Model):
     # --- リレーション（オプション） ---
     category = db.relationship('ExpenseCategory', backref='expenses', lazy=True)
     user = db.relationship('User', backref='expenses', lazy=True)
-
+#支出カテゴリテーブル
 class ExpenseCategory(db.Model):
     __tablename__ = 'expense_categories'
 

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>収入の入力</title>
+    <style>
+        body {
+            font-family: "Noto Sans JP", sans-serif;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+ 
+        h2 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+ 
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+ 
+        label {
+            display: flex;
+            flex-direction: column;
+            font-size: 16px;
+        }
+ 
+        input, select, textarea {
+            padding: 8px;
+            font-size: 16px;
+            margin-top: 5px;
+        }
+ 
+        textarea {
+            resize: vertical;
+            height: 80px;
+        }
+ 
+        .button-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+ 
+        button {
+            padding: 8px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+ 
+        .cancel {
+            background-color: #f0f0f0;
+        }
+ 
+        .submit {
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <h2>収入の入力</h2>
+ 
+    <form action="/expense" method="post">
+        <label>
+            日付：
+            <input type="date" name="date" required>
+        </label>
+ 
+        <label>
+            収入額：
+            <input type="number" name="amount" required>
+        </label>
+ 
+        <label>
+            メモ：
+            <textarea name="memo" placeholder=""></textarea>
+        </label>
+ 
+        <div class="button-row">
+            <button type="button" class="cancel" onclick="location.href='/'">キャンセル</button>
+            <button type="submit" class="submit">確定</button>
+        </div>
+    </form>
+ 
+   
+</body>
+</html>

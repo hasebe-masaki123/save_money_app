@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ja">
+ 
+<head>
+<meta charset="UTF-8">
+<title>貯金の入力</title>
+<style>
+ 
+        body {
+ 
+            font-family: "Noto Sans JP", sans-serif;
+ 
+            max-width: 400px;
+ 
+            margin: 0 auto;
+ 
+            padding: 20px;
+ 
+        }
+ 
+        h2 {
+ 
+            text-align: center;
+ 
+            font-size: 24px;
+ 
+            margin-bottom: 20px;
+ 
+        }
+ 
+        form {
+ 
+            display: flex;
+ 
+            flex-direction: column;
+ 
+            gap: 20px;
+ 
+        }
+ 
+        label {
+ 
+            display: flex;
+ 
+            flex-direction: column;
+ 
+            font-size: 16px;
+ 
+        }
+ 
+        input,
+ 
+        textarea {
+ 
+            padding: 8px;
+ 
+            font-size: 16px;
+ 
+            margin-top: 5px;
+ 
+        }
+ 
+        textarea {
+ 
+            resize: vertical;
+ 
+            height: 80px;
+ 
+        }
+ 
+        .error-message {
+ 
+            color: red;
+ 
+            font-size: 14px;
+ 
+            display: none;
+ 
+            margin-top: 4px;
+ 
+        }
+ 
+        .button-row {
+ 
+            display: flex;
+ 
+            justify-content: space-between;
+ 
+            margin-top: 20px;
+ 
+        }
+ 
+        button {
+ 
+            padding: 8px 20px;
+ 
+            font-size: 16px;
+ 
+            cursor: pointer;
+ 
+        }
+ 
+        .cancel {
+ 
+            background-color: #f0f0f0;
+ 
+        }
+ 
+        .submit {
+ 
+            background-color: #fff;
+ 
+        }
+</style>
+</head>
+ 
+<body>
+<h2>貯金の入力</h2>
+ 
+    <form id="savingForm" action="/saving" method="post">
+<label>
+ 
+            日付：
+<input type="date" name="date" required>
+</label>
+ 
+        <label>
+ 
+            金額（貯金額）：
+<input type="number" name="amount" id="amountInput" required>
+<span class="error-message" id="amountError">0以上の整数を入力してください</span>
+</label>
+ 
+        <label>
+ 
+            メモ：
+<textarea name="memo" placeholder=""></textarea>
+</label>
+ 
+        <div class="button-row">
+<button type="button" class="cancel" onclick="location.href='/'">キャンセル</button>
+<button type="submit" class="submit">確定</button>
+</div>
+</form>
+ 
+    <script>
+ 
+        // ▼ 金額のバリデーション（マイナス禁止）
+ 
+        const amountInput = document.getElementById('amountInput');
+ 
+        const amountError = document.getElementById('amountError');
+ 
+        amountInput.addEventListener('input', () => {
+ 
+            const value = amountInput.value.trim();
+ 
+            if (!/^\d+$/.test(value) || parseInt(value) < 0) {
+ 
+                amountError.style.display = 'block';
+ 
+            } else {
+ 
+                amountError.style.display = 'none';
+ 
+            }
+ 
+        });
+ 
+        // ▼ 送信時チェック
+ 
+        document.getElementById('savingForm').addEventListener('submit', (e) => {
+ 
+            const value = amountInput.value.trim();
+ 
+            if (!/^\d+$/.test(value) || parseInt(value) < 0) {
+ 
+                amountError.style.display = 'block';
+ 
+                e.preventDefault();
+ 
+                alert("0以上の整数を入力してください");
+ 
+            }
+ 
+        });
+</script>
+</body>
+ 
+</html>

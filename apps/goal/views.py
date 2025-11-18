@@ -1,126 +1,72 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login import login_required, current_user
 from datetime import datetime
 from app import db
 from apps.models import Goal
-import Blueprint, render_template, request, redirect, url_for, flash
-
-# 目標管理用Blueprint
+ 
+# Flask-WTF
+from flask_wtf import FlaskForm
+from wtforms import StringField, IntegerField, DateField, SubmitField
+from wtforms.validators import DataRequired, NumberRange
+ 
+ 
+# =========================================
+#  Flask-WTF フォーム定義
+# =========================================
+ 
+class GoalForm(FlaskForm):
+    title = StringField("タイトル", validators=[DataRequired()])
+    target_amount = IntegerField("目標金額", validators=[DataRequired(), NumberRange(min=1)])
+    deadline_at = DateField("期限", format='%Y-%m-%d', validators=[], default=None)
+    submit = SubmitField("登録")
+ 
+ 
+# =========================================
+#  Blueprint 設定
+# =========================================
+ 
 goal_bp = Blueprint('goal', __name__, url_prefix='/goals')
-
-# 目標一覧
+ 
+ 
+# =========================================
+#  目標一覧
+# =========================================
 @goal_bp.route('/')
 @login_required
 def index():
     goals = Goal.query.filter_by(user_id=current_user.id).all()
     return render_template('goals/index.html', goals=goals)
-
-# 目標登録（GET/POST）
+ 
+ 
+# =========================================
+#  目標登録（GET/POST）
+# =========================================
 @goal_bp.route('/create', methods=['GET', 'POST'])
 @login_required
 def create():
-    if request.method == 'POST':
-        title = request.form.get('title')
-        target_amount = request.form.get('target_amount')
-        deadline_at = request.form.get('deadline_at')
-
-        # 入力チェック
-        if not title or not target_amount:
-            flash('タイトルと目標金額は必須です', 'error')
-            return redirect(url_for('goal.create'))
-
-        try:
-            target_amount = int(target_amount)
-        except ValueError:
-            flash('目標金額は整数で入力してください', 'error')
-            return redirect(url_for('goal.create'))
-
-        if deadline_at:
-            try:
-                deadline_at = datetime.strptime(deadline_at, '%Y-%m-%d').date()
-            except ValueError:
-                flash('日付の形式が正しくありません', 'error')
-                return redirect(url_for('goal.create'))
-        else:
-            deadline_at = None
-
-        goal = Goal(
+    form = GoalForm()
+ 
+    # POST & バリデーション成功
+    if form.validate_on_submit():
+ 
+        # deadline は任意入力 → 空なら None になるのでそのままでOK
+        deadline_value = form.deadline_at.data
+ 
+        new_goal = Goal(
             user_id=current_user.id,
-            title=title,
-            target_amount=target_amount,
+            title=form.title.data,
+            target_amount=form.target_amount.data,
             current_amount=0,
-            deadline_at=deadline_at,
+            deadline_at=deadline_value,
             created_at=datetime.now(),
             updated_at=None,
         )
-
-        db.session.add(goal)
+ 
+        db.session.add(new_goal)
         db.session.commit()
-
-        flash('目標を登録しました', 'success')
+ 
+        flash("目標を登録しました", "success")
         return redirect(url_for('goal.index'))
-
-    return render_template('goals/create.html') 
-from flask_login import login_required, current_user
-from datetime import datetime
-from app import db
-from apps.models import Goal
-
-# 目標管理用Blueprint
-goal_bp = Blueprint('goal', __name__, url_prefix='/goals')
-
-# 目標一覧
-@goal_bp.route('/')
-@login_required
-def index():
-    goals = Goal.query.filter_by(user_id=current_user.id).all()
-    return render_template('goals/index.html', goals=goals)
-
-# 目標登録（GET/POST）
-@goal_bp.route('/create', methods=['GET', 'POST'])
-@login_required
-def create():
-    if request.method == 'POST':
-        title = request.form.get('title')
-        target_amount = request.form.get('target_amount')
-        deadline_at = request.form.get('deadline_at')
-
-        # 入力チェック
-        if not title or not target_amount:
-            flash('タイトルと目標金額は必須です', 'error')
-            return redirect(url_for('goal.create'))
-
-        try:
-            target_amount = int(target_amount)
-        except ValueError:
-            flash('目標金額は整数で入力してください', 'error')
-            return redirect(url_for('goal.create'))
-
-        # 日付が空ならNone
-        if deadline_at:
-            try:
-                deadline_at = datetime.strptime(deadline_at, '%Y-%m-%d').date()
-            except ValueError:
-                flash('日付の形式が正しくありません', 'error')
-                return redirect(url_for('goal.create'))
-        else:
-            deadline_at = None
-
-        # データ登録
-        goal = Goal(
-            user_id=current_user.id,
-            title=title,
-            target_amount=target_amount,
-            current_amount=0,
-            deadline_at=deadline_at,
-            created_at=datetime.now(),
-            updated_at=None,
-        )
-
-        db.session.add(goal)
-        db.session.commit()
-
-        flash('目標を登録しました', 'success')
-        return redirect(url_for('goal.index'))
-
-    return render_template('goals/create.html')
+ 
+    # 初期表示（GET）
+    return render_template('goals/create.html', form=form)

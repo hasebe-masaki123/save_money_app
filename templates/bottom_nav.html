@@ -1,6 +1,6 @@
 <nav class="bottom-nav">
-  <a href="#">ホーム</a>
+  <a href="{{ url_for('top.top') }}">ホーム</a>
   <a href="#">カレンダー</a>
   <a href="#">入力</a>
-  <a href="#">グラフ</a>
+  <a href="{{ url_for('graphs.index') }}">グラフ</a>
 </nav>

@@ -1,5 +1,3 @@
-
-
 from datetime import datetime
 
 # 指定した年月の月の日数を取得

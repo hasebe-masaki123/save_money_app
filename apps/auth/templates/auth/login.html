@@ -1,13 +1,17 @@
 {% extends "base.html" %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('auth.static', filename='css/auth.css') }}">
+{% endblock %}
 {% block content %}
 
 <h2>ログイン</h2>
 
 <form method="POST">
+  <!-- csrf -->
   {{ form.hidden_tag() }}
 
-  <!-- メールアドレス -->
-  <div>
+  <!-- メールアドレス入力欄 -->
+  <div class="mb-3">
     {{ form.email.label }}
     {{ form.email(size=32) }}
     {% for error in form.email.errors %}
@@ -16,33 +20,53 @@
   </div>
 
   <!-- パスワード入力欄 -->
-  <div class="password-box">
+  <div class="password-box mb-3">
     {{ form.password.label }}
     <div class="input-wrapper">
       {{ form.password(size=32, id='password') }}
-      <i class="far fa-eye-slash" id="view"></i>
+      <i class="far fa-eye-slash" id="password_view"></i>
     </div>
     {% for error in form.password.errors %}
       <span class="error">{{ error }}</span>
     {% endfor %}
   </div>
+  <!-- フラッシュメッセージの表示 -->
+  <div style="min-height: 40px;">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}" role="alert"
+              style="color: red; margin-top: 10px; padding: 8px; border-radius: 6px;">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% else %}
+        <!-- 空のスペース -->
+        <div style="height: 32px;"></div>
+      {% endif %}
+    {% endwith %}
+  </div>
+
 
   <!-- 送信ボタン -->
-  <div>
-    {{ form.submit(class="btn") }}
+  <div class="position-relative login-btn-wrapper">
+    {{ form.submit(class="btn login-btn py-3 fs-5") }}
+    <i class="fa-solid fa-angle-right login-btn-icon position-absolute top-50 end-0 translate-middle-y me-3"></i>
   </div>
+
 </form>
 
-<p style="text-align:center; margin-top: 10px;">
-  <a href="{{ url_for('auth.signup') }}">サインアップ</a>
-</p>
+<!-- サインアップページへのリンク -->
+<div class="mt-4">
+  <p style="border-bottom: #777;"></p>
+  <a href="{{ url_for('auth.signup') }}" class="btn w-100 d-inline-block text-align-center" style="background-color: #e2e6ea; color: black;">
+    サインアップ
+  </a>
+</div>
 
-<!-- FontAwesome -->
-<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
-<!-- JS -->
 <script>
-  const viewicon = document.getElementById('view');
+  const viewicon = document.getElementById('password_view');
   const inputtype = document.getElementById('password');
 
   viewicon.addEventListener('click', function () {

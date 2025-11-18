@@ -52,25 +52,26 @@ def create_app():
 
     # Blueprintの登録
     from apps.auth import views as auth_views
+    from apps.top import views as top_views
 
-    # from apps.top import views as top_views
     # from apps.calendar import views as calendar_views
     # from apps.expense import views as expense_views
     # from apps.income import views as income_views
     # from apps.saving import views as saving_views
     # from apps.fixed import views as fixed_views
     # from apps.goal import views as goal_views
-    from apps.graph import views as graph_views
+    from apps.graphs import views as graphs_views
 
-    app.register_blueprint(auth_views.auth, url_prefix="/auth")
-    # app.register_blueprint(top_views.top)
+    app.register_blueprint(auth_views.auth_bp, url_prefix="/auth")
+    app.register_blueprint(top_views.top_bp, url_prefix="/top")
+
     # app.register_blueprint(calendar_views.calendar)
     # app.register_blueprint(expense_views.expense)
     # app.register_blueprint(income_views.income)
     # app.register_blueprint(saving_views.saving)
     # app.register_blueprint(fixed_views.fixed)
     # app.register_blueprint(goal_views.goal)
-    app.register_blueprint(graph_views.graph, url_prefix="/graph")
+    app.register_blueprint(graphs_views.graphs_bp, url_prefix="/graphs")
     
 
     return app

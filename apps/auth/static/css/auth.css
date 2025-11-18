@@ -1,0 +1,87 @@
+/* ===== ログインボタン ===== */
+/* ボタン本体*/
+.login-btn {
+  background: #1D74F5;      /* メインの青 */
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+
+/* ホバー時さらに明るく */
+.login-btn:hover {
+  background: #4797ff;
+  color: #fff;
+}
+
+/* アクティブ（押した瞬間） */
+.login-btn:active {
+  background: #125ec6;
+}
+
+/* アイコンの色 */
+.login-btn-icon {
+  color: #ffffff;
+  font-size: 1.3rem;
+}
+
+/* ===== サインアップボタン ===== */
+/* ボタン本体*/
+.signup-btn {
+  background: #000000;
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+
+/* ホバー時さらに明るく */
+.signup-btn:hover {
+  background: #141414;
+  color: #fff;
+}
+
+/* アクティブ（押した瞬間） */
+.signup-btn:active {
+  background: #125ec6;
+}
+
+/* アイコンの色 */
+.signup-btn-icon {
+  color: #ffffff;
+  font-size: 1.3rem;
+}
+
+/* ===== パスワード入力欄 ===== */
+.password-box {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding-right: 40px; /* アイコン分の余白を確保 */
+}
+
+/* 目のアイコンを右端に固定 */
+#password_view, #password_confirm_view {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+#passowrd_view:hover
+#passoword_confirm_view:hover {
+  color: #007bff;
+}

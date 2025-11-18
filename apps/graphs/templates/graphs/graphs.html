@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('graphs.static', filename='css/graphs.css')}}">
+{% endblock %}
+{% block content %}
+
+<h2>グラフ</h2>
+<div class="container px-0 mt-3">
+    <div class="row g-0 text-center">
+
+        <div class="col-4">
+            <button class="mode-btn active w-100 py-2" data-mode="expense">
+                支出
+            </button>
+        </div>
+
+        <div class="col-4">
+            <button class="mode-btn w-100 py-2" data-mode="income">
+                収入
+            </button>
+        </div>
+
+        <div class="col-4">
+            <button class="mode-btn w-100 py-2" data-mode="saving">
+                貯金
+            </button>
+        </div>
+
+    </div>
+</div>
+
+
+<div>
+    <input type="month" id="monthSelect" value="{{ current_month }}">
+    <button id="reloadBtn">表示</button>
+</div>
+
+<canvas id="weeklyGraph" width="350" height="300"></canvas>
+
+<h3>月合計</h3>
+<p id="totalAmount">￥{{ total_data }}</p>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+let chartInstance = null;
+let currentMode = "expense";
+
+// --- 週別グラフ描画 ---
+function drawWeeklyGraph(labels, weeklyData) {
+    const ctx = document.getElementById("weeklyGraph").getContext("2d");
+    if (chartInstance) chartInstance.destroy();
+
+    chartInstance = new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "週合計",
+                data: weeklyData,
+                backgroundColor: "rgba(54,162,235,0.7)"
+            }]
+        }
+    });
+}
+
+// --- モード切替 ---
+document.querySelectorAll(".mode-btn").forEach(btn => {
+    btn.addEventListener("click", async () => {
+        currentMode = btn.dataset.mode;
+
+        document.querySelectorAll(".mode-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        await reloadGraph();
+    });
+});
+
+// --- 月変更 or 表示ボタン ---
+document.getElementById("reloadBtn").addEventListener("click", reloadGraph);
+
+// --- Ajax 取得 ---
+async function reloadGraph() {
+    const month = document.getElementById("monthSelect").value;
+
+    const res = await fetch(`/graphs/data?month=${month}&mode=${currentMode}`);
+    const json = await res.json();
+
+    drawWeeklyGraph(json.week_labels, json.weekly);
+    document.getElementById("totalAmount").textContent = `￥${json.total}`;
+}
+
+// 初期表示
+drawWeeklyGraph({{ week_labels | tojson }}, {{ weekly_data | tojson }});
+</script>
+<script>
+    document.querySelectorAll(".mode-btn").forEach(btn => {
+        btn.addEventListener("click", async () => {
+    
+            // すべて非アクティブ化
+            document.querySelectorAll(".mode-btn").forEach(b => {
+                b.classList.remove("active");
+            });
+    
+            // クリックされたものを active に
+            btn.classList.add("active");
+    
+            // モード切替 & 再描画
+            currentMode = btn.dataset.mode;
+            await reloadGraph();
+        });
+    });
+</script>
+
+
+{% endblock %}

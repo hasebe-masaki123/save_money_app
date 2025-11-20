@@ -113,7 +113,7 @@ def PieChart(balance, save_path):
         startangle=90, 
         counterclock=False,
         colors=colors,          
-        wedgeprops={'edgecolor': 'white'},
+        wedgeprops={'edgecolor': "#5171A9FF"},
         labeldistance=1.2,      # ラベルの位置
     )
 

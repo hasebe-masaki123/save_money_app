@@ -28,8 +28,8 @@ body {
 }
 
 h1 {
-  color: #A4C6FF;/*文字色*/
-  border: solid 3px #A4C6FF;/*線色*/
+  color: dimgray;/*文字色*/
+  border: solid 1.5px dimgray;/*線色*/
   padding: 0.1em;/*文字周りの余白*/
   border-radius: 0.5em;/*角丸*/
   text-align:center;

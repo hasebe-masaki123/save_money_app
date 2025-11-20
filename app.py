@@ -50,6 +50,7 @@ def create_app():
     # --- Blueprint の登録 ---
     app.register_blueprint(auth_views.auth_bp) 
     app.register_blueprint(top_views.top_bp)    
+    app.register_blueprint(expense_views.menu_bp)
     app.register_blueprint(expense_views.expense_bp)
     app.register_blueprint(income_views.income_bp)
     app.register_blueprint(saving_views.saving_bp)

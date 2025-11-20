@@ -4,18 +4,18 @@ from apps.expense.models import Expense, ExpenseCategory
 from app import db
 from datetime import datetime
 
-expense_bp = Blueprint('expense', __name__, url_prefix='/expense', template_folder='templates')
+# --- expense 用 Blueprint ---
+expense_bp = Blueprint("expense", __name__, url_prefix="/expense", template_folder="templates")
 
-
-@expense_bp.route('/', methods=['GET', 'POST'])
+@expense_bp.route("/", methods=["GET", "POST"])
 @login_required
 def expense():
     categories = ExpenseCategory.query.all()
 
-    if request.method == 'POST':
+    if request.method == "POST":
         date_str = request.form.get("date")
         amount_str = request.form.get("amount")
-        category_input = request.form.get("category_id")  # 数字IDか文字列か分からない
+        category_input = request.form.get("category_id")
         memo = request.form.get("memo")
 
         # 金額チェック
@@ -34,9 +34,8 @@ def expense():
 
         # カテゴリIDの処理
         if category_input.isdigit():
-            category_id = int(category_input)  # 既存カテゴリならそのまま
+            category_id = int(category_input)
         else:
-            # 新規カテゴリとしてDBに登録
             existing = ExpenseCategory.query.filter_by(name=category_input).first()
             if existing:
                 category_id = existing.category_id
@@ -46,7 +45,6 @@ def expense():
                 db.session.commit()
                 category_id = new_category.category_id
 
-        # Expense作成
         new_expense = Expense(
             user_id=current_user.user_id,
             category_id=category_id,
@@ -58,7 +56,6 @@ def expense():
         db.session.commit()
 
         flash("支出を登録したさー", "success")
-        # 入力画面に戻す
         return redirect(url_for("expense.expense"))
 
     return render_template("expense/expense.html", categories=categories)
@@ -122,8 +119,18 @@ def expense_by_date():
         Expense.date >= start_date,
         Expense.date <= end_date
     ).all()
+
     data = [
         {"date": e.date.strftime("%Y-%m-%d"), "amount": e.amount, "category_id": e.category_id, "memo": e.memo}
         for e in expenses
     ]
     return jsonify(data)
+
+
+# --- menu 用 Blueprint ---
+menu_bp = Blueprint("menu", __name__, url_prefix="", template_folder="templates")
+
+@menu_bp.route("/menu/", methods=["GET"])
+# @login_required
+def input_menu_page():
+    return render_template("input_select.html")

@@ -1,190 +1,153 @@
 <!DOCTYPE html>
 <html lang="ja">
- 
+
 <head>
-<meta charset="UTF-8">
-<title>貯金の入力</title>
-<style>
- 
+    <meta charset="UTF-8">
+    <title>貯金の入力</title>
+    <style>
         body {
- 
             font-family: "Noto Sans JP", sans-serif;
- 
             max-width: 400px;
- 
             margin: 0 auto;
- 
             padding: 20px;
- 
         }
- 
         h2 {
- 
             text-align: center;
- 
             font-size: 24px;
- 
             margin-bottom: 20px;
- 
         }
- 
         form {
- 
             display: flex;
- 
             flex-direction: column;
- 
             gap: 20px;
- 
         }
- 
         label {
- 
             display: flex;
- 
             flex-direction: column;
- 
             font-size: 16px;
- 
         }
- 
-        input,
- 
-        textarea {
- 
+        input, textarea {
             padding: 8px;
- 
             font-size: 16px;
- 
             margin-top: 5px;
- 
         }
- 
         textarea {
- 
             resize: vertical;
- 
             height: 80px;
- 
         }
- 
         .error-message {
- 
             color: red;
- 
             font-size: 14px;
- 
             display: none;
- 
             margin-top: 4px;
- 
         }
- 
         .button-row {
- 
             display: flex;
- 
             justify-content: space-between;
- 
             margin-top: 20px;
- 
         }
- 
         button {
- 
             padding: 8px 20px;
- 
             font-size: 16px;
- 
             cursor: pointer;
- 
         }
- 
         .cancel {
- 
             background-color: #f0f0f0;
- 
         }
- 
         .submit {
- 
             background-color: #fff;
- 
         }
-</style>
+    </style>
 </head>
- 
+
 <body>
-<h2>貯金の入力</h2>
- 
-    <form id="savingForm" action="/saving" method="post">
-<label>
- 
+    <h2>貯金の入力</h2>
+
+    <form id="savingForm" action="{{ url_for('saving.saving') }}" method="post">
+        {{ form.hidden_tag() }}
+
+        <label>
             日付：
-<input type="date" name="date" required>
-</label>
- 
+            {{ form.date(class="") }}
+            <span class="error-message" id="dateError">日付を入力してください</span>
+        </label>
+
         <label>
- 
             金額（貯金額）：
-<input type="number" name="amount" id="amountInput" required>
-<span class="error-message" id="amountError">0以上の整数を入力してください</span>
-</label>
- 
+            {{ form.amount(class="") }}
+            <span class="error-message" id="amountError">0以上の整数を入力してください</span>
+        </label>
+
         <label>
- 
             メモ：
-<textarea name="memo" placeholder=""></textarea>
-</label>
- 
+            {{ form.memo(class="") }}
+            <span class="error-message" id="memoError">200文字以内で入力してください</span>
+        </label>
+
         <div class="button-row">
-<button type="button" class="cancel" onclick="location.href='/'">キャンセル</button>
-<button type="submit" class="submit">確定</button>
-</div>
-</form>
- 
+            <button type="button" class="cancel" onclick="location.href='/'">キャンセル</button>
+            {{ form.submit(class="submit") }}
+        </div>
+    </form>
+
     <script>
- 
-        // ▼ 金額のバリデーション（マイナス禁止）
- 
-        const amountInput = document.getElementById('amountInput');
- 
+        const form = document.getElementById('savingForm');
+        const dateField = form.querySelector('[name="date"]');
+        const amountField = form.querySelector('[name="amount"]');
+        const memoField = form.querySelector('[name="memo"]');
+
+        const dateError = document.getElementById('dateError');
         const amountError = document.getElementById('amountError');
- 
-        amountInput.addEventListener('input', () => {
- 
-            const value = amountInput.value.trim();
- 
+        const memoError = document.getElementById('memoError');
+
+        // リアルタイムバリデーション
+        dateField.addEventListener('input', () => {
+            dateError.style.display = dateField.value ? 'none' : 'block';
+        });
+
+        amountField.addEventListener('input', () => {
+            const value = amountField.value.trim();
             if (!/^\d+$/.test(value) || parseInt(value) < 0) {
- 
                 amountError.style.display = 'block';
- 
             } else {
- 
                 amountError.style.display = 'none';
- 
             }
- 
         });
- 
-        // ▼ 送信時チェック
- 
-        document.getElementById('savingForm').addEventListener('submit', (e) => {
- 
-            const value = amountInput.value.trim();
- 
-            if (!/^\d+$/.test(value) || parseInt(value) < 0) {
- 
+
+        memoField.addEventListener('input', () => {
+            if (memoField.value.length > 200) {
+                memoError.style.display = 'block';
+            } else {
+                memoError.style.display = 'none';
+            }
+        });
+
+        // 送信時チェック
+        form.addEventListener('submit', (e) => {
+            let valid = true;
+
+            if (!dateField.value) {
+                dateError.style.display = 'block';
+                valid = false;
+            }
+
+            const amountValue = amountField.value.trim();
+            if (!/^\d+$/.test(amountValue) || parseInt(amountValue) < 0) {
                 amountError.style.display = 'block';
- 
-                e.preventDefault();
- 
-                alert("0以上の整数を入力してください");
- 
+                valid = false;
             }
- 
+
+            if (memoField.value.length > 200) {
+                memoError.style.display = 'block';
+                valid = false;
+            }
+
+            if (!valid) {
+                e.preventDefault();
+                alert("入力内容を確認してください");
+            }
         });
-</script>
+    </script>
 </body>
- 
+
 </html>

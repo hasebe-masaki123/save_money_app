@@ -29,7 +29,7 @@
   <!--今週の残金表示-->
   <p>今週の残金<br>{{ balance }}</p>
   <!--残金のグラフ表示-->
-  <img src="{{ url_for('static', filename='graph.png') }}" alt="残金のグラフ">
+  <img src="{{ filename }}" alt="残金のグラフ">
   <!--貯金の達成度の表示-->
   <p>貯金の達成度<br>{{ current_amount }}</p>
 </form>

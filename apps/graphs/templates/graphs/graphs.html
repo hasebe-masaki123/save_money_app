@@ -30,10 +30,31 @@
 </div>
 
 
-<div>
-    <input type="month" id="monthSelect" value="{{ current_month }}">
-    <button id="reloadBtn">表示</button>
+<div class="d-flex align-items-center mb-2 w-100">
+    <button id="prevMonthBtn" class="btn btn-outline-secondary me-2 flex-shrink-0">&lt;</button>
+    <input type="month" id="monthSelect" value="{{ current_month | e }}" class="form-control flex-grow-1">
+    <button id="nextMonthBtn" class="btn btn-outline-secondary ms-2 flex-shrink-0">&gt;</button>
 </div>
+
+<script>
+function changeMonth(offset) {
+    const monthInput = document.getElementById("monthSelect");
+    let [year, month] = monthInput.value.split('-').map(Number);
+    month += offset;
+    if (month < 1) {
+        year--;
+        month = 12;
+    } else if (month > 12) {
+        year++;
+        month = 1;
+    }
+    monthInput.value = `${year}-${String(month).padStart(2, '0')}`;
+    reloadGraph();
+}
+
+document.getElementById("prevMonthBtn").addEventListener("click", () => changeMonth(-1));
+document.getElementById("nextMonthBtn").addEventListener("click", () => changeMonth(1));
+</script>
 
 <canvas id="weeklyGraph" width="350" height="300"></canvas>
 
@@ -74,6 +95,11 @@ document.querySelectorAll(".mode-btn").forEach(btn => {
 
         await reloadGraph();
     });
+});
+
+// 初期表示でAjaxを使って描画
+document.addEventListener("DOMContentLoaded", () => {
+    reloadGraph();
 });
 
 // --- 月変更 or 表示ボタン ---

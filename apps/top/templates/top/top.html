@@ -1,5 +1,68 @@
 {% extends "base.html" %}
-{% block head %}{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('top.static', filename='css/bootstrap.min.css')}}">
+<link rel="stylesheet" href="{{ url_for('top.static', filename='css/top.css')}}">
+{% endblock%}
+
 {% block content %}
-<h1>トップページ</h1>
+
+    <!-- お知らせボタン --> 
+    <div class="">
+        <div class="">
+          <div class="">
+          </div>
+          <div class="">
+            <a class="" href="#" aria-label=""></a>
+            <a class="notify-btn" href="{{ url_for('notification.notifications') }}"><span class="dli-mail"></span></a>
+          </div>
+        </div>
+    </div>
+
+    <!--サイドバー-->
+      <div class="wrapper">
+      <input type="checkbox" id="menuToggler" class="input-toggler" value="1" autofocus="true"/>
+      <label for="menuToggler" id="menuTogglerLabel" class="menu-toggler" role="button" aria-pressed="false" aria-expanded="false" aria-label="Navigation button">
+        <span class="menu-toggler__line"></span>
+        <span class="menu-toggler__line"></span>
+        <span class="menu-toggler__line"></span>
+        <div class="item">
+        </div>
+      </label>
+      <nav id="sidebar" class="sidebar" role="navigation" aria-labelledby="menuTogglerLabel" aria-hidden="true">
+        <ul id="menubar" class="menu" role="menubar" aria-orientation="vertical">
+          <a><p>メニュー</p></a>
+          <li class="menu__item" role="none"><a class="menu__link" href="#" role="menuitem" tabindex="-1">入力</a></li>
+          <li class="menu__item" role="none"><a class="menu__link" href="#" role="menuitem" tabindex="-1">閲覧</a></li>
+          <li class="menu__item" role="none"><a class="menu__link" href="#" role="menuitem" tabindex="-1">カレンダー</a></li>
+          <a><p>設定</p></a>
+          <li class="menu__item" role="none"><a class="menu__link" href="#" role="menuitem" tabindex="-1">アカウント設定</a></li>
+          <li class="menu__item" role="none"><a class="menu__link" href="#" role="menuitem" tabindex="-1">ログアウト</a></li>
+        </ul>
+      </nav>
+      </div>
+    <div>
+          <!--今週の残金表示-->
+        <article class=""><br><br>
+          <h2>今週の残金</h2>
+          <h1>{{ balance }}円</h1>
+          <!--残金のグラフ表示-->
+          <p><img src="{{ filename  }}" alt="残金のグラフ" width="290"></p>
+        </article>
+        
+        <article class="">
+          <h2>貯金の達成度</h2>
+          <!--貯金の達成度の表示-->
+          <h1>{{ current_amount }}%</h1>
+        </article>
+    </div>
+
+    <!--目標の設定画面に飛ぶリンク-->
+      <div class=""><br>
+        <a class="goal" href="#" >目標の設定画面へ >></a>
+      </div>
+      <div>
+        <span class="arrow -right"></span>
+      </div>
+
+
 {% endblock %}

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="mt-3 mb-3">固定費一覧</h2>
+
+<!-- 固定費一覧 -->
+<div class="list-group mb-4">
+    {% for f in fixed_list %}
+    <div class="list-group-item d-flex justify-content-between align-items-center">
+        <div>
+            <strong>{{ f.name }}</strong><br>
+            <small>{{ f.billing_day }}日 / {{ f.default_amount }}円</small>
+        </div>
+        <a href="{{ url_for('fixed.fixed_edit', fixed_id=f.fixed_id) }}" class="btn btn-sm btn-outline-primary">編集</a>
+    </div>
+    {% else %}
+    <p class="text-muted">登録された固定費はありません。</p>
+    {% endfor %}
+</div>
+
+
+<hr>
+
+<h3 class="mt-4 mb-2">固定費の追加</h3>
+
+<form method="POST">
+    {{ form.hidden_tag() }}
+
+    <div class="mb-3">
+        {{ form.name.label }}<br>
+        {{ form.name(class="form-control") }}
+        {% for error in form.name.errors %}
+        <span class="text-danger">{{ error }}</span>
+        {% endfor %}
+    </div>
+
+    <div class="mb-3">
+        {{ form.billing_day.label }}<br>
+        {{ form.billing_day(class="form-control") }}
+        {% for error in form.billing_day.errors %}
+        <span class="text-danger">{{ error }}</span>
+        {% endfor %}
+    </div>
+
+    <div class="mb-3">
+        {{ form.default_amount.label }}<br>
+        {{ form.default_amount(class="form-control") }}
+        {% for error in form.default_amount.errors %}
+        <span class="text-danger">{{ error }}</span>
+        {% endfor %}
+    </div>
+
+    <div>
+        {{ form.submit(class="btn btn-primary w-100") }}
+    </div>
+
+</form>
+
+{% endblock %}

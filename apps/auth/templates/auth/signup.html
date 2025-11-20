@@ -63,10 +63,10 @@
   <div class="position-relative signup-btn-wrapper mb-3">
     {{ form.submit(class="btn signup-btn py-3 fs-5") }}
   </div>
-  <i class="fa-solid fa-angle-right signup-btn-icon position-absolute top-50 end-0 translate-middle-y me-3"></i>
 </form>
 
 <div class="position-relative mt-3">
+  <p>登録済みの方：</p>
   <a href="{{ url_for('auth.login') }}" class="btn w-100 d-inline-block text-align-center" style="background-color: #e2e6ea; color: black;">
     ログイン
   </a>

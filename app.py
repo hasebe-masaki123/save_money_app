@@ -58,9 +58,10 @@ def create_app():
     # from apps.expense import views as expense_views
     # from apps.income import views as income_views
     # from apps.saving import views as saving_views
-    # from apps.fixed import views as fixed_views
-    # from apps.goal import views as goal_views
+    from apps.fixed import views as fixed_views
+    from apps.goal import views as goal_views
     from apps.graphs import views as graphs_views
+    from apps.notification import views as notification_views
 
     app.register_blueprint(auth_views.auth_bp, url_prefix="/auth")
     app.register_blueprint(top_views.top_bp, url_prefix="/top")
@@ -69,9 +70,10 @@ def create_app():
     # app.register_blueprint(expense_views.expense)
     # app.register_blueprint(income_views.income)
     # app.register_blueprint(saving_views.saving)
-    # app.register_blueprint(fixed_views.fixed)
-    # app.register_blueprint(goal_views.goal)
+    app.register_blueprint(fixed_views.fixed_bp, url_prefix="/fixed")
+    app.register_blueprint(goal_views.goal_bp, url_prefix="/goal")
     app.register_blueprint(graphs_views.graphs_bp, url_prefix="/graphs")
+    app.register_blueprint(notification_views.notification, url_prefix="/notification")
     
 
     return app
@@ -81,4 +83,25 @@ app = create_app()
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+
+
+
+import click
+from flask.cli import with_appcontext
+from apps.fixed.services import generate_monthly_fixed
+
+@app.cli.command("fixed:generate")
+@with_appcontext
+def generate_fixed():
+    from apps.auth.models import User
+    from datetime import datetime
+
+    now = datetime.now()
+    users = User.query.all()
+
+    for u in users:
+        generate_monthly_fixed(u.user_id, now.year, now.month)
+
+    print("固定費を自動生成しました")
 

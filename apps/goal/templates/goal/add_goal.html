@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>目標の設定</h2>
+
+<div class="container mt-3">
+
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+        <!-- タイトル -->
+        <div class="mb-3">
+            {{ form.title.label }}
+            {{ form.title(class="form-control") }}
+            {% for error in form.title.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <!-- 目標金額 -->
+        <div class="mb-3">
+            {{ form.target_amount.label }}
+            {{ form.target_amount(class="form-control", min="1") }}
+            {% for error in form.target_amount.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <!-- 期限（任意） -->
+        <div class="mb-3">
+            {{ form.deadline_at.label }}
+            {{ form.deadline_at(class="form-control", type="date") }}
+            {% for error in form.deadline_at.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <!-- 送信 -->
+        {{ form.submit(class="btn btn-primary w-100") }}
+
+    </form>
+
+</div>
+
+{% endblock %}

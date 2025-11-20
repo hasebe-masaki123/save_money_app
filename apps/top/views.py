@@ -46,7 +46,21 @@ def week_balance():
     # total_income_amount = db.session.query(func.sum(Income.amount)).filter(Income.user_id == current_user.id).scalar() or 0
     # total_expense_amount = db.session.query(func.sum(Expense.amount)).filter(Expense.user_id == current_user.id).scalar() or 0
     # total_saving_amount = db.session.query(func.sum(Saving.amount)).filter(Saving.user_id == current_user.id).scalar() or 0
+    # total_income_amount = db.session.query(func.sum(Income.amount)).filter(Income.user_id == current_user.id).scalar() or 0
+    # total_expense_amount = db.session.query(func.sum(Expense.amount)).filter(Expense.user_id == current_user.id).scalar() or 0
+    # total_saving_amount = db.session.query(func.sum(Saving.amount)).filter(Saving.user_id == current_user.id).scalar() or 0
 
+    total_income_amount =100000
+    total_expense_amount = 50000
+    total_saving_amount = 10000
+
+    # goal = db.session.query(Goal).filter(Goal.user_id == current_user.id).first()
+    # if goal:
+    #     target_amount = goal.TARGET_AMOUNT or 0
+    #     current_amount = goal.CURRENT_AMOUNT or 0
+    #     #今日の日付と期限日を引いて、残りの日数を求める。
+    #     deadline_days = (goal.DEADLINE_AT - datetime.today()).days if goal.DEADLINE_AT else 1
+    #     deadline_days = max(deadline_days, 1)  # 0除算防止
     total_income_amount =100000
     total_expense_amount = 50000
     total_saving_amount = 10000
@@ -72,6 +86,7 @@ def week_balance():
     if auto_saving==0:
         balance = total_income_amount - total_expense_amount - total_saving_amount
     else:
+        balance = total_income_amount - total_expense_amount - total_saving_amount - auto_saving
         balance = total_income_amount - total_expense_amount - total_saving_amount - auto_saving
 
     return balance,total_income_amount,total_saving_amount,auto_saving

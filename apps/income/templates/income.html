@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <title>収入の入力</title>
@@ -10,82 +11,155 @@
             margin: 0 auto;
             padding: 20px;
         }
- 
+
         h2 {
             text-align: center;
             font-size: 24px;
             margin-bottom: 20px;
         }
- 
+
         form {
             display: flex;
             flex-direction: column;
             gap: 20px;
         }
- 
+
         label {
             display: flex;
             flex-direction: column;
             font-size: 16px;
         }
- 
-        input, select, textarea {
+
+        input,
+        textarea {
             padding: 8px;
             font-size: 16px;
             margin-top: 5px;
         }
- 
+
         textarea {
             resize: vertical;
             height: 80px;
         }
- 
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            display: none;
+            margin-top: 4px;
+        }
+
         .button-row {
             display: flex;
             justify-content: space-between;
             margin-top: 20px;
         }
- 
+
         button {
             padding: 8px 20px;
             font-size: 16px;
             cursor: pointer;
         }
- 
+
         .cancel {
             background-color: #f0f0f0;
         }
- 
+
         .submit {
             background-color: #fff;
         }
     </style>
 </head>
+
 <body>
     <h2>収入の入力</h2>
- 
-    <form action="/expense" method="post">
+
+    <form id="incomeForm" action="{{ url_for('income.income') }}" method="post">
+        <!-- CSRF トークン -->
+        {{ form.hidden_tag() }}
+
         <label>
             日付：
-            <input type="date" name="date" required>
+            {{ form.date(class="") }}
+            <span class="error-message" id="dateError">日付を入力してください</span>
         </label>
- 
+
         <label>
             収入額：
-            <input type="number" name="amount" required>
+            {{ form.amount(class="") }}
+            <span class="error-message" id="amountError">0以上の整数を入力してください</span>
         </label>
- 
+
         <label>
             メモ：
-            <textarea name="memo" placeholder=""></textarea>
+            {{ form.memo(class="") }}
+            <span class="error-message" id="memoError">200文字以内で入力してください</span>
         </label>
- 
+
         <div class="button-row">
             <button type="button" class="cancel" onclick="location.href='/'">キャンセル</button>
-            <button type="submit" class="submit">確定</button>
+            {{ form.submit(class="submit") }}
         </div>
     </form>
- 
-   
+
+    <script>
+        const form = document.getElementById('incomeForm');
+        const dateField = form.querySelector('[name="date"]');
+        const amountField = form.querySelector('[name="amount"]');
+        const memoField = form.querySelector('[name="memo"]');
+
+        const dateError = document.getElementById('dateError');
+        const amountError = document.getElementById('amountError');
+        const memoError = document.getElementById('memoError');
+
+        // リアルタイムバリデーション
+        dateField.addEventListener('input', () => {
+            dateError.style.display = dateField.value ? 'none' : 'block';
+        });
+
+        amountField.addEventListener('input', () => {
+            const value = amountField.value.trim();
+            if (!/^\d+$/.test(value) || parseInt(value) < 0) {
+                amountError.style.display = 'block';
+            } else {
+                amountError.style.display = 'none';
+            }
+        });
+
+        memoField.addEventListener('input', () => {
+            if (memoField.value.length > 200) {
+                memoError.style.display = 'block';
+            } else {
+                memoError.style.display = 'none';
+            }
+        });
+
+        // 送信時チェック
+        form.addEventListener('submit', (e) => {
+            let valid = true;
+
+            if (!dateField.value) {
+                dateError.style.display = 'block';
+                valid = false;
+            }
+
+            const amountValue = amountField.value.trim();
+            if (!/^\d+$/.test(amountValue) || parseInt(amountValue) < 0) {
+                amountError.style.display = 'block';
+                valid = false;
+            }
+
+            if (memoField.value.length > 200) {
+                memoError.style.display = 'block';
+                valid = false;
+            }
+
+            if (!valid) {
+                e.preventDefault();
+                alert("入力内容を確認してください");
+            }
+        });
+    </script>
 </body>
+
 </html>

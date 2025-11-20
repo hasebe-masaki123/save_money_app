@@ -76,6 +76,9 @@
     <h2>支出の入力</h2>
 
     <form id="expenseForm" action="/expense" method="post">
+        <!-- ▼ CSRF トークン追加 -->
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
         <label>
             日付：
             <input type="date" name="date" required>
@@ -89,10 +92,10 @@
 
         <label>
             カテゴリ：
-            <select name="category" id="categorySelect" required>
-                <option value="趣味">趣味</option>
-                <option value="食費">食費</option>
-                <option value="交通費">交通費</option>
+            <select name="category_id" id="categorySelect" required>
+                <option value="0">趣味</option>
+                <option value="1">食費</option>
+                <option value="2">交通費</option>
                 <option value="add">＋カテゴリ追加</option>
             </select>
         </label>

@@ -1,12 +1,17 @@
 from app import db
-from datetime import date
+from datetime import datetime
+from apps.auth.models import User
 
-#貯金テーブル
+# 貯金テーブル
 class Saving(db.Model):
     __tablename__ = 'saving'
 
     saving_id = db.Column(db.Integer, primary_key=True, autoincrement=True)  # 貯金ID
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)  # ユーザーID
+    user_id = db.Column(
+        db.Integer,
+        db.ForeignKey('users.user_id'),   # ← 修正
+        nullable=False
+    )  # ユーザーID
     date = db.Column(db.Date, nullable=False)  # 貯金日
     amount = db.Column(db.Integer, nullable=False)  # 金額
     memo = db.Column(db.Text)  # メモ

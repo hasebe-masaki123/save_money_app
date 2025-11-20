@@ -1,10 +1,111 @@
+
 {% extends "base.html" %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('auth.static', filename='css/auth.css') }}">
+{% endblock %}
 {% block content %}
-<h2>ユーザー登録</h2>
+<h2>サインアップ</h2>
+
 <form method="POST">
-  <input type="email" name="email" placeholder="メールアドレス" required><br>
-  <input type="password" name="password" placeholder="パスワード" required><br>
-  <button type="submit">登録</button>
+  <!-- csrf -->
+  {{ form.hidden_tag() }}
+
+  <!-- メールアドレス入力欄 -->
+  <div class="mb-3">
+    {{ form.email.label }}
+    {{ form.email(size=32) }}
+    {% for error in form.email.errors %}
+      <span style="color: red;">{{ error }}</span>
+    {% endfor %}
+  </div>
+
+  <!-- パスワード入力欄 -->
+  <div class="password-box mb-3">
+    {{ form.password.label }}
+    <div class="input-wrapper">
+      {{ form.password(size=32, id='password') }}
+      <i class="far fa-eye-slash" id="password_view"></i>
+    </div>
+    {% for error in form.password.errors %}
+      <span class="error">{{ error }}</span>
+    {% endfor %}
+  </div>
+
+  <!-- パスワード（確認用）入力欄 -->
+  <div class="password-box mb-3">
+    {{ form.password_confirm.label }}
+    <div class="input-wrapper">
+      {{ form.password_confirm(size=32, id='password_confirm') }}
+      <i class="far fa-eye-slash" id="password_confirm_view"></i>
+    </div>
+    {% for error in form.password_confirm.errors %}
+      <span class="error">{{ error }}</span>
+    {% endfor %}
+  </div>
+
+  <!-- フラッシュメッセージの表示 -->
+  <div style="min-height: 40px;">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}" role="alert"
+              style="color: red; margin-top: 10px; padding: 8px; border-radius: 6px;">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% else %}
+        <!-- 空のスペース -->
+        <div style="height: 32px;"></div>
+      {% endif %}
+    {% endwith %}
+  </div>
+
+  <!-- 送信ボタン -->
+  <div class="position-relative signup-btn-wrapper mb-3">
+    {{ form.submit(class="btn signup-btn py-3 fs-5") }}
+  </div>
+  <i class="fa-solid fa-angle-right signup-btn-icon position-absolute top-50 end-0 translate-middle-y me-3"></i>
 </form>
-<p><a href="{{ url_for('auth.login') }}">ログインページへ戻る</a></p>
+
+<div class="position-relative mt-3">
+  <a href="{{ url_for('auth.login') }}" class="btn w-100 d-inline-block text-align-center" style="background-color: #e2e6ea; color: black;">
+    ログイン
+  </a>
+</div>
+
+<script>
+  const pass_viewicon = document.getElementById('password_view');
+  const pass_con_viewicon = document.getElementById('password_confirm_view');
+
+  const password = document.getElementById('password');
+  const password_confirm = document.getElementById('password_confirm');
+
+  // 1つ目（パスワード）
+  pass_viewicon.addEventListener('click', function () {
+    if (password.type === 'password') {
+      password.type = 'text';
+      pass_viewicon.classList.remove('fa-eye-slash');
+      pass_viewicon.classList.add('fa-eye');
+    } else {
+      password.type = 'password';
+      pass_viewicon.classList.remove('fa-eye');
+      pass_viewicon.classList.add('fa-eye-slash');
+    }
+  });
+
+  // 2つ目（パスワード確認）
+  pass_con_viewicon.addEventListener('click', function () {
+    if (password_confirm.type === 'password') {
+      password_confirm.type = 'text';
+      pass_con_viewicon.classList.remove('fa-eye-slash');
+      pass_con_viewicon.classList.add('fa-eye');
+    } else {
+      password_confirm.type = 'password';
+      pass_con_viewicon.classList.remove('fa-eye');
+      pass_con_viewicon.classList.add('fa-eye-slash');
+    }
+  });
+</script>
+
+
 {% endblock %}

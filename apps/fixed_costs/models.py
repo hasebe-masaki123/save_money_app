@@ -1,3 +1,6 @@
+from app import db
+from datetime import date
+
 #固定費テーブル
 class Fixed(db.Model):
     __tablename__ = 'fixed'

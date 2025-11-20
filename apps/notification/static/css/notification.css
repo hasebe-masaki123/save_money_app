@@ -28,14 +28,16 @@ body {
 }
 
 h1 {
-  color: dimgray;/*文字色*/
-  border: solid 1.5px dimgray;/*線色*/
+  color : #adcbff;/*文字色*/
+  border: solid 1.5px #83b1ff;
   padding: 0.1em;/*文字周りの余白*/
-  border-radius: 0.5em;/*角丸*/
+  /* border-radius: 0.5em;角丸 */
   text-align:center;
   width: 17rem;
   /* ブロックごと真ん中にするとき */
   margin: auto;
+  font-family:'GulimChe',sans-serif;
+
 }
 
 .notification {

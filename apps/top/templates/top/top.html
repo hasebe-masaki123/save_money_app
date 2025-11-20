@@ -1,40 +1,110 @@
 {% extends "base.html" %}
 {% block content %}
 
-<form method="POST">
+  <head><script src="../assets/js/color-modes.js"></script>
 
-<!--サイドバー-->
-  <div class="wrapper">
-  <input type="checkbox" id="menuToggler" class="input-toggler" value="1" autofocus="true"/>
-  <label for="menuToggler" id="menuTogglerLabel" class="menu-toggler" role="button" aria-pressed="false" aria-expanded="false" aria-label="Navigation button">
-    <span class="menu-toggler__line"></span>
-    <span class="menu-toggler__line"></span>
-    <span class="menu-toggler__line"></span>
-  </label>
-  <nav id="sidebar" class="sidebar" role="navigation" aria-labelledby="menuTogglerLabel" aria-hidden="true">
-    <ul id="menubar" class="menu" role="menubar" aria-orientation="vertical">
-      <a>メニュー</a>
-      <li class="menu__item" role="none"><a class="menu__link" href="#" role="menuitem" tabindex="-1">入力</a></li>
-      <li class="menu__item" role="none"><a class="menu__link" href="#" role="menuitem" tabindex="-1">閲覧</a></li>
-      <li class="menu__item" role="none"><a class="menu__link" href="#" role="menuitem" tabindex="-1">カレンダー</a></li>
-      <a>設定</a>
-      <li class="menu__item" role="none"><a class="menu__link" href="#" role="menuitem" tabindex="-1">アカウント設定</a></li>
-      <li class="menu__item" role="none"><a class="menu__link" href="#" role="menuitem" tabindex="-1">ログアウト</a></li>
-    </ul>
-  </nav>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.112.5">
+    <title>top</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/blog/">
+    <link href="bootstrap.min.css" rel="stylesheet">
+    <link href="top.css" rel="stylesheet">
+  </head>
+  <body>
+
+    <!-- お知らせボタン -->
+    <div class="container">
+        <div class="row flex-nowrap justify-content-between align-items-center">
+          <div class="col-4 text-center">
+          </div>
+          <div class="col-4 d-flex justify-content-end align-items-center">
+            <a class="link-secondary" href="#" aria-label="">
+            </a>
+            <style>
+              .btn{
+                display: block;
+                text-decoration: none;
+                padding: 10px;
+                background: #83b1ff;
+                border: 1px solid #4689FF;
+                width: 45px;
+                margin-left: auto;
+              }
+              .btn:hover{
+                background-color: #4689FF;
+                color: white;
+              }
+            </style>
+            <a class="btn" href="{{ url_for('notification.notification') }}"><span class="dli-mail"></span></a>
+          </div>
+        </div>
+      </header>
+
+    </div>
+
+    <!--サイドバー-->
+      <div class="wrapper">
+      <input type="checkbox" id="menuToggler" class="input-toggler" value="1" autofocus="true"/>
+      <label for="menuToggler" id="menuTogglerLabel" class="menu-toggler" role="button" aria-pressed="false" aria-expanded="false" aria-label="Navigation button">
+        <span class="menu-toggler__line"></span>
+        <span class="menu-toggler__line"></span>
+        <span class="menu-toggler__line"></span>
+        <div class="item">
   </div>
+      </label>
+      <nav id="sidebar" class="sidebar" role="navigation" aria-labelledby="menuTogglerLabel" aria-hidden="true">
+        <ul id="menubar" class="menu" role="menubar" aria-orientation="vertical">
+          <a>メニュー</a>
+          <li class="menu__item" role="none"><a class="menu__link" href="{{ url_for('expense.expense') }}" role="menuitem" tabindex="-1">入力</a></li>
+          <li class="menu__item" role="none"><a class="menu__link" href="{{ url_for('graph.expense_graph') }}" role="menuitem" tabindex="-1">閲覧</a></li>
+          <li class="menu__item" role="none"><a class="menu__link" href="{{ url_for('calendar.calendar') }}" role="menuitem" tabindex="-1">カレンダー</a></li>
+          <a>設定</a>
+          <li class="menu__item" role="none"><a class="menu__link" href="{{ url_for('.') }}" role="menuitem" tabindex="-1">アカウント設定</a></li>
+          <li class="menu__item" role="none"><a class="menu__link" href="{{ url_for('auth.logout') }}" role="menuitem" tabindex="-1">ログアウト</a></li>
+        </ul>
+      </nav>
+      </div>
+    </form>
 
-  <!--お知らせボタン-->
-  <button type="submit" name="notify">お知らせ</button>
-  <!--今週の残金表示-->
-  <p>今週の残金<br>{{ balance }}</p>
-  <!--残金のグラフ表示-->
-  <img src="{{ filename }}" alt="残金のグラフ">
-  <!--貯金の達成度の表示-->
-  <p>貯金の達成度<br>{{ current_amount }}</p>
-</form>
-<!--目標の設定画面に飛ぶリンク-->
-<p><a href="{{ url_for('goal.goal') }}">目標の設定画面へ</a></p>
+
+    <div>
+          <!--今週の残金表示-->
+        <article class="blog-post">
+          <h1>今週の残金</h1>
+          <p>{{ balance }}</p>
+          <!--残金のグラフ表示-->
+          <p><img src="{{ filename }}" alt="残金のグラフ"></p>
+        </article>
+        
+        <article class="blog-post">
+          <h1>貯金の達成度</h1>
+          <!--貯金の達成度の表示-->
+          <p>{{ current_amount }}</p>
+        </article>
+    </div>
+
+        
+    <!--目標の設定画面に飛ぶリンク-->
+
+    <style>
+      .example1 a{
+        display: block;
+        padding: 5px;
+        width: 14rem;
+        margin-left: auto;
+        text-align: center;
+      }
+      </style>
+      <div class="example1">
+
+        <a href="{{ url_for('goal.goal') }}" class="btn btn--orange btn-c"><i class="fa fas fa-envelope"></i>目標の設定画面へ
+</a>
+      </div>
+</body>
 
 
 {% endblock %}

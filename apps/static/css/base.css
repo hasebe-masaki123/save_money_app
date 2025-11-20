@@ -1,0 +1,123 @@
+
+/* ===== 全体設定 ===== */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: "Helvetica", "Arial", sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+/* ===== 画面サイズを固定（スマホ専用） ===== */
+body {
+  width: 375px;             /* iPhone標準幅 */
+  margin: 0 auto;           /* 画面中央に固定 */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 見た目の枠をつける */
+  overflow-x: hidden;       /* 横スクロール禁止 */
+}
+
+/* ===== メイン領域 ===== */
+main {
+  padding: 16px;
+  box-sizing: border-box;
+  min-height: calc(100vh - 60px); /* ボトムナビ分を除いた高さ */
+}
+
+/* ===== ボタン ===== */
+/* button, .btn {
+  width: 100%;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 0;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover, .btn:hover {
+  background-color: #0056b3;
+} */
+
+/* ===== 入力フォーム ===== */
+input, select, textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+/* ===== エラー表示 ===== */
+.error {
+  color: red;
+  font-size: 14px;
+}
+
+/* ===== 見出し ===== */
+h1, h2, h3 {
+  text-align: center;
+  color: #222;
+}
+
+/* ===== ボトムナビ ===== */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 375px;  /* 固定幅に合わせる */
+  background-color: #fff;
+  border-top: 1px solid #ddd;
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 0;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.bottom-nav a {
+  text-decoration: none;
+  color: #555;
+  font-size: 14px;
+  text-align: center;
+}
+
+.bottom-nav a.active {
+  color: #007bff;
+}
+
+
+/* ===== パスワード入力欄 ===== */
+.password-box {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding-right: 40px; /* アイコン分の余白を確保 */
+}
+
+/* 目のアイコンを右端に固定 */
+#view {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+#view:hover {
+  color: #007bff;
+}

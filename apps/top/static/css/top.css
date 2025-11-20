@@ -57,10 +57,11 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
+  position:fixed ;
   top: 0;
   height: 100vh;
   opacity: 0.5;
+  left: calc(var(--sidebar-width) * -1);
 }
 
 .content {
@@ -171,7 +172,7 @@ p {
 
 h2 {
   color : dimgray;/*文字色*/
-  border: solid 2px dimgray;
+  border: solid 1.5px dimgray;
   padding: 0.1em;/*文字周りの余白*/
   /* border-radius: 0.5em;角丸 */
   text-align:center;

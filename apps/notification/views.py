@@ -14,6 +14,8 @@ notification = Blueprint(
 @notification.route("/notification", methods=["GET", "POST"])
 def notifications(): 
     # 現在ユーザーの通知を全件取得
-    notifications = db.session.query(Notification).filter(Notification.user_id == current_user.id).all()
-    return render_template("notifications.html", notifications=notifications)
+    # notifications = db.session.query(Notification).filter(Notification.user_id == current_user.id).all()
+    return render_template("notification.html"
+                        #    , notifications=notifications
+                           )
 

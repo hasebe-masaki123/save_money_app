@@ -1,15 +1,11 @@
+from dotenv import load_dotenv
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from pathlib import Path
-
-from flask_wtf import FlaskForm 
-from wtforms import StringField, SubmitField
-from wtforms.validators import DataRequired 
 import os
 from flask_wtf import CSRFProtect
-
 
 
 db = SQLAlchemy()
@@ -19,6 +15,8 @@ login_manager = LoginManager()
 
 
 def create_app():
+    
+    load_dotenv()
     app = Flask(__name__)
 
     #CSRFトークンのために必要な秘密鍵
@@ -59,7 +57,7 @@ def create_app():
     # from apps.fixed import views as fixed_views
     # from apps.goal import views as goal_views
     # from apps.graph import views as graph_views
-    from apps.notification import views as top_views
+    from apps.notification import views as notification_views
 
     app.register_blueprint(auth_views.auth, url_prefix="/auth")
     
@@ -72,7 +70,7 @@ def create_app():
     # app.register_blueprint(goal_views.goal)
     # app.register_blueprint(graph_views.graph)
 
-    app.register_blueprint(top_views.notification, url_prefix="/notification")
+    app.register_blueprint(notification_views.notification, url_prefix="/notification")
     
 
 
@@ -82,5 +80,5 @@ def create_app():
 app = create_app()
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
 

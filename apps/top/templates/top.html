@@ -7,17 +7,10 @@
 {% block content %}
 
     <!-- お知らせボタン --> 
-    <div class="">
-        <div class="">
-          <div class="">
-          </div>
-          <div class="">
-            <a class="" href="#" aria-label=""></a>
-            <a class="notify-btn" href="{{ url_for('notification.notifications') }}"><span class="dli-mail"></span></a>
-          </div>
-        </div>
-    </div>
-
+      <div class="">
+        <a class="notify-btn" href="{{ url_for('notification.notifications') }}"><span class="dli-mail"></span></a>
+      </div>
+      
     <!--サイドバー-->
       <div class="wrapper">
       <input type="checkbox" id="menuToggler" class="input-toggler" value="1" autofocus="true"/>

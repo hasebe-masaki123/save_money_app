@@ -1,5 +1,5 @@
 from flask import request,render_template,url_for,Blueprint
-# from flask_login import current_user
+from flask_login import current_user,login_required
 from app import db,os
 # import app
 # from apps.goal.models import Goal
@@ -23,7 +23,9 @@ top_bp = Blueprint(
     static_folder="static",
 )
 
+
 @top_bp.route("/top", methods=["GET", "POST"])
+@login_required
 def top_page():
     balance, total_income_amount, total_saving_amount, auto_saving = week_balance()
     current_amount = SavigGoal(total_income_amount, total_saving_amount)
@@ -150,3 +152,9 @@ def SavigGoal(total_income_amount,total_saving_amount):
     x = Decimal(x)
     x = x.quantize(Decimal('0.0'), rounding=ROUND_DOWN)
     return x
+
+
+@top_bp.route("/menu", methods=["GET"])
+@login_required
+def input_menu_page():
+    return render_template("/top/input_select.html")

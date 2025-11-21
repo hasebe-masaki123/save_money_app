@@ -1,8 +1,158 @@
-{% extends "base.html" %}
-{% block content %}
-<main>
-    <div>
-        <input type="text" name="" id="">
-    </div>
-</main>
-{% end block%}
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>支出の入力</title>
+    <style>
+        body {
+            font-family: "Noto Sans JP", sans-serif;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        label {
+            display: flex;
+            flex-direction: column;
+            font-size: 16px;
+        }
+
+        input,
+        select,
+        textarea {
+            padding: 8px;
+            font-size: 16px;
+            margin-top: 5px;
+        }
+
+        textarea {
+            resize: vertical;
+            height: 80px;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            display: none;
+            margin-top: 4px;
+        }
+
+        .button-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 8px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .cancel {
+            background-color: #f0f0f0;
+        }
+
+        .submit {
+            background-color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>支出の入力</h2>
+
+    <form id="expenseForm" action="/expense" method="post">
+        <!-- ▼ CSRF トークン追加 -->
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <label>
+            日付：
+            <input type="date" name="date" required>
+        </label>
+
+        <label>
+            支出額：
+            <input type="number" name="amount" id="amountInput" required>
+            <span class="error-message" id="amountError">0以上の整数を入力してください</span>
+        </label>
+
+        <label>
+            カテゴリ：
+            <select name="category_id" id="categorySelect" required>
+                <option value="0">趣味</option>
+                <option value="1">食費</option>
+                <option value="2">交通費</option>
+                <option value="add">＋カテゴリ追加</option>
+            </select>
+        </label>
+
+        <label>
+            メモ：
+            <textarea name="memo" placeholder=""></textarea>
+        </label>
+
+        <div class="button-row">
+            <button type="button" class="cancel" onclick="location.href='{{ url_for('top.input_menu_page') }}'">キャンセル</button>
+            <button type="submit" class="submit">確定</button>
+        </div>
+    </form>
+
+    <script>
+        // ▼ マイナスや数字以外を弾くバリデーション
+        const amountInput = document.getElementById('amountInput');
+        const amountError = document.getElementById('amountError');
+
+        amountInput.addEventListener('input', () => {
+            const value = amountInput.value.trim();
+
+            if (!/^\d+(\.\d+)?$/.test(value) || parseFloat(value) < 0) {
+                amountError.style.display = 'block';
+            } else {
+                amountError.style.display = 'none';
+            }
+        });
+
+        // ▼ 送信時もチェック！エラーなら送信させない
+        document.getElementById('expenseForm').addEventListener('submit', (e) => {
+            const value = amountInput.value.trim();
+
+            if (!/^\d+(\.\d+)?$/.test(value) || parseFloat(value) < 0) {
+                amountError.style.display = 'block';
+                e.preventDefault();
+                alert("0以上の整数を入力してください");
+            }
+        });
+
+        // ▼ 「カテゴリ追加」選択時の処理
+        document.getElementById('categorySelect').addEventListener('change', function () {
+            if (this.value === 'add') {
+                const newCategory = prompt('新しいカテゴリ名を入力してください:');
+                if (newCategory) {
+                    const option = document.createElement('option');
+                    option.value = newCategory;
+                    option.textContent = newCategory;
+                    this.insertBefore(option, this.lastElementChild);
+                    this.value = newCategory;
+                } else {
+                    this.value = '趣味';
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

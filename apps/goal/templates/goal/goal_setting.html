@@ -7,7 +7,7 @@
 
     {% if goal %}
         <!-- 目標が登録済みの場合 -->
-        <div class="card p-3 mb-3">
+        <div class="p-3 mb-3">
 
             <h4>{{ goal.title }}</h4>
 
@@ -21,10 +21,10 @@
                     期限：設定なし
                 {% endif %}
             </p>
-
-            <a href="{{ url_for('goal.create') }}" class="btn btn-primary w-100 mt-2">
-                目標を編集する
-            </a>
+            <div class="d-flex justify-content-between">
+                <a href="{{url_for('top.input_menu_page')}}" class="btn">キャンセル</a>
+                <a href="{{ url_for('goal.create') }}" class="btn btn-primary mt-2">目標を編集する</a>
+            </div>
 
         </div>
 

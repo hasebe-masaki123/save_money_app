@@ -34,27 +34,11 @@ main {
   min-height: calc(100vh - 60px); /* ボトムナビ分を除いた高さ */
 }
 
-/* ===== 入力フォーム ===== */
-input, select, textarea {
-  width: 100%;
-  padding: 10px;
-  margin: 8px 0 16px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 16px;
-  box-sizing: border-box;
-}
 
 /* ===== エラー表示 ===== */
 .error {
   color: red;
   font-size: 14px;
-}
-
-/* ===== 見出し ===== */
-h1, h2, h3 {
-  text-align: center;
-  color: #222;
 }
 
 /* ===== ボトムナビ ===== */

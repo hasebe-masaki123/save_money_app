@@ -1,0 +1,24 @@
+<!-- 共通キャンセル確認モーダル -->
+<div class="modal fade" id="cancelConfirmModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">確認</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        入力中の内容は保存されません。前の画面に戻りますか？
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          いいえ（戻らない）
+        </button>
+        <a href="{{ back_url }}" class="btn btn-danger">はい（戻る）</a>
+      </div>
+
+    </div>
+  </div>
+</div>

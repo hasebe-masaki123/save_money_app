@@ -1,7 +1,7 @@
 /* stylelint-disable stylistic/selector-list-comma-newline-after */
 
 :root {
-  --sidebar-width: 20em;
+  --sidebar-width: 375px;
   --background-color:#fff;
   /* サイドバーのボタンのサイズ */
   --toggler-size: 30px;
@@ -60,8 +60,8 @@ body {
   position:fixed ;
   top: 0;
   height: 100vh;
-  opacity: 0.5;
-  left: calc(var(--sidebar-width) * -1);
+  opacity: 0;
+  left: calc((100vw - 375px) / 2);
 }
 
 .content {
@@ -95,16 +95,18 @@ body {
 
 /* サイドバーの✕関連 */
 .menu-toggler {
-  border-radius: calc(var(--toggler-line-size) / 2);
-  display: block;
   width: var(--toggler-size);
   height: var(--toggler-size);
   position: fixed;
   top: var(--toggler-offset-top);
-  left: var(--toggler-offset-left);
+
+  /* ★ body 幅に合わせて中央固定にする */
+  left: calc((100vw - 375px) / 2 + var(--toggler-offset-left));
+
+  z-index: 1500;
   cursor: pointer;
-  z-index: 1;
 }
+
 
 .menu-toggler__line {
   height: var(--toggler-line-size);

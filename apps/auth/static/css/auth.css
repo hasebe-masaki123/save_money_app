@@ -85,3 +85,21 @@
 #passoword_confirm_view:hover {
   color: #007bff;
 }
+
+
+/* ===== 入力フォーム ===== */
+input, select, textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+/* ===== 見出し ===== */
+h1, h2, h3 {
+  text-align: center;
+  color: #222;
+}

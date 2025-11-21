@@ -55,9 +55,9 @@ def create_app():
     from apps.top import views as top_views
 
     # from apps.calendar import views as calendar_views
-    # from apps.expense import views as expense_views
-    # from apps.income import views as income_views
-    # from apps.saving import views as saving_views
+    from apps.expense import views as expense_views
+    from apps.income import views as income_views
+    from apps.saving import views as saving_views
     from apps.fixed import views as fixed_views
     from apps.goal import views as goal_views
     from apps.graphs import views as graphs_views
@@ -67,9 +67,9 @@ def create_app():
     app.register_blueprint(top_views.top_bp, url_prefix="/top")
 
     # app.register_blueprint(calendar_views.calendar)
-    # app.register_blueprint(expense_views.expense)
-    # app.register_blueprint(income_views.income)
-    # app.register_blueprint(saving_views.saving)
+    app.register_blueprint(expense_views.expense_bp, url_prefix="/expense")
+    app.register_blueprint(income_views.income_bp, url_prefix="/income")
+    app.register_blueprint(saving_views.saving_bp, url_prefix="/saving")
     app.register_blueprint(fixed_views.fixed_bp, url_prefix="/fixed")
     app.register_blueprint(goal_views.goal_bp, url_prefix="/goal")
     app.register_blueprint(graphs_views.graphs_bp, url_prefix="/graphs")

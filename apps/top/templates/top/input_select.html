@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block head %}
+    <style>
+        h1 {
+            font-size: 34px;
+            margin-bottom: 35px;
+        }
+
+        .menu-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 22px;
+        }
+
+        /* さらに少し小さめ */
+        .menu-btn {
+            width: 65vw;
+            max-width: 420px;
+            padding: 18px 0;
+            font-size: 22px;
+            border: none;
+            background-color: #f2f2f2;
+            border-radius: 14px;
+            cursor: pointer;
+        }
+
+        .menu-btn:hover {
+            background-color: #e6e6e6;
+        }
+
+        .cancel-btn {
+            margin-top: 45px;
+            padding: 10px 25px;
+            font-size: 18px;
+            background-color: #e0e0e0;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .cancel-btn:hover {
+            background-color: #d4d4d4;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <h1>入力</h1>
+
+    <div class="menu-wrapper">
+
+        <form action="{{ url_for('expense.expense') }}">
+            <button class="menu-btn">支出</button>
+        </form>
+
+        <form action="{{ url_for('income.income') }}">
+            <button class="menu-btn">収入</button>
+        </form>
+
+        <form action="{{ url_for('saving.saving') }}">
+            <button class="menu-btn">貯金</button>
+        </form>
+
+        
+        <form action="{{ url_for('fixed.fixed') }}">
+            <button class="menu-btn">固定費</button>
+        </form>
+        
+
+    </div>
+
+    <form action="{{ url_for('top.top_page') }}">
+        <button class="cancel-btn" type="submit">キャンセル</button>
+    </form>
+
+{% endblock %}

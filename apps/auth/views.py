@@ -26,7 +26,7 @@ def login():
         if user:
             login_user(user)
             flash("ログインしました。", "success")
-            return redirect(url_for("top.top"))
+            return redirect(url_for("top.top_page"))
 
         flash("メールアドレスまたはパスワードが間違っています。", "danger")
 

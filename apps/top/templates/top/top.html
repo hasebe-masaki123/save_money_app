@@ -1,21 +1,16 @@
 {% extends "base.html" %}
 {% block head %}
-<link rel="stylesheet" href="{{ url_for('top.static', filename='css/bootstrap.min.css')}}">
-<link rel="stylesheet" href="{{ url_for('top.static', filename='css/top.css')}}">
-{% endblock%}
+<link rel="stylesheet" href="{{ url_for('top.static', filename='css/bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('top.static', filename='css/top.css') }}">
+{% endblock %}
 
 {% block content %}
 
     <!-- お知らせボタン --> 
+
     <div class="">
-        <div class="">
-          <div class="">
-          </div>
-          <div class="">
-            <a class="" href="#" aria-label=""></a>
-            <a class="notify-btn" href="{{ url_for('notification.notifications') }}"><span class="dli-mail"></span></a>
-          </div>
-        </div>
+      <a class="" href="#" aria-label=""></a>
+      <a class="notify-btn" href="{{ url_for('notification.notifications') }}"><span class="dli-mail"></span></a>
     </div>
 
     <!--サイドバー-->
@@ -31,11 +26,11 @@
       <nav id="sidebar" class="sidebar" role="navigation" aria-labelledby="menuTogglerLabel" aria-hidden="true">
         <ul id="menubar" class="menu" role="menubar" aria-orientation="vertical">
           <a><p>メニュー</p></a>
-          <li class="menu__item" role="none"><a class="menu__link" href="#" role="menuitem" tabindex="-1">入力</a></li>
-          <li class="menu__item" role="none"><a class="menu__link" href="#" role="menuitem" tabindex="-1">閲覧</a></li>
-          <li class="menu__item" role="none"><a class="menu__link" href="#" role="menuitem" tabindex="-1">カレンダー</a></li>
+          <li class="menu__item" role="none"><a class="menu__link" href="{{url_for('top.input_menu_page')}}" role="menuitem" tabindex="-1">入力</a></li>
+          <li class="menu__item" role="none"><a class="menu__link" href="{{url_for('graphs.index')}}" role="menuitem" tabindex="-1">閲覧</a></li>
+          <li class="menu__item" role="none"><a class="menu__link" href="#" role="menuitem" tabindex="-1">カレンダー(未実装)</a></li>
           <a><p>設定</p></a>
-          <li class="menu__item" role="none"><a class="menu__link" href="#" role="menuitem" tabindex="-1">アカウント設定</a></li>
+          <li class="menu__item" role="none"><a class="menu__link" href="#" role="menuitem" tabindex="-1">アカウント設定(未実装)</a></li>
           <li class="menu__item" role="none"><a class="menu__link" href="#" role="menuitem" tabindex="-1">ログアウト</a></li>
         </ul>
       </nav>
@@ -58,7 +53,7 @@
 
     <!--目標の設定画面に飛ぶリンク-->
       <div class=""><br>
-        <a class="goal" href="#" >目標の設定画面へ >></a>
+        <a class="goal" href="{{url_for('goal.index')}}" >目標の設定画面へ >></a>
       </div>
       <div>
         <span class="arrow -right"></span>

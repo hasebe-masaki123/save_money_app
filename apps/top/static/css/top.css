@@ -130,7 +130,7 @@ body {
 
 .input-toggler {
   position: absolute;
-  left: -100%;
+  left: -9999px;
 }
 
 
@@ -229,6 +229,8 @@ h1 {
   
 }
 
+
+
 .notify-btn{
                 display: block;
                 text-decoration: none;
@@ -237,15 +239,11 @@ h1 {
                 /* border: 1.5px solid dimgray; */
                 width: 45px;
                 margin-left: auto;
-                border-radius: 0.5em;/*角丸*/
+                /* border-radius: 0.5em;角丸 */
                 position: fixed;
                 top: var(--toggler-offset-top);
                 right: var(--toggler-offset-left);
 
-}
-.notify-btn:hover{
-  background: #fff;
-  color:  dimgray;
 }
 
 
@@ -263,7 +261,7 @@ h1 {
         font-family:'GulimChe',sans-serif;
 }
 .goal:hover{
-        background: #fff;
+        background: rgb(224, 226, 226);
         color:  dimgray;
 }
 

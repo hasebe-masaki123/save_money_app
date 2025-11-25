@@ -1,16 +1,19 @@
+
 {% extends "base.html" %}
 {% block head %}
-<link rel="stylesheet" href="{{ url_for('top.static', filename='css/bootstrap.min.css')}}">
-<link rel="stylesheet" href="{{ url_for('top.static', filename='css/top.css')}}">
-{% endblock%}
+<link rel="stylesheet" href="{{ url_for('top.static', filename='css/bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('top.static', filename='css/top.css') }}">
+{% endblock %}
 
 {% block content %}
 
     <!-- お知らせボタン --> 
-      <div class="">
-        <a class="notify-btn" href="{{ url_for('notification.notifications') }}"><span class="dli-mail"></span></a>
-      </div>
-      
+
+    <div class="">
+      <a class="" href="#" aria-label=""></a>
+      <a class="notify-btn" href="{{ url_for('notification.notifications') }}"><span class="dli-mail"></span></a>
+    </div>
+
     <!--サイドバー-->
       <div class="wrapper">
       <input type="checkbox" id="menuToggler" class="input-toggler" value="1" autofocus="true"/>
@@ -52,6 +55,9 @@
     <!--目標の設定画面に飛ぶリンク-->
       <div class=""><br>
         <a class="goal" href="#" >目標の設定画面へ >></a>
+      </div>
+      <div>
+        <span class="arrow -right"></span>
       </div>
 
 

@@ -179,9 +179,10 @@ h2 {
   padding: 0.1em;/*文字周りの余白*/
   /* border-radius: 0.5em;角丸 */
   text-align:center;
-  width: 17rem;
+  width: 14rem;
   /* ブロックごと真ん中にするとき */
   margin: auto;
+  font-size: 25px;
   font-family:'GulimChe',sans-serif;
 
 }
@@ -189,10 +190,11 @@ h2 {
 h1 {
   color:  dimgray;/*文字色*/
   text-align:center;
-  width: 17rem;
+  width: 15rem;
   /* ブロックごと真ん中にするとき */
   margin: auto;
   font-family:'GulimChe',sans-serif;
+  font-size: 40px;
 }
 
 
@@ -259,7 +261,7 @@ h1 {
 .goal {
         display: block;
         padding: 0.1em;
-        width: 14rem;
+        width: 12rem;
         border-radius: 0.5em;/*角丸*/
         text-align: center;
         color:  dimgray;
@@ -267,6 +269,9 @@ h1 {
         border: 1.5px solid  dimgray;
         text-decoration: none;
         font-family:'GulimChe',sans-serif;
+        position: fixed;
+        bottom: 70px;
+
         /* ★ body 幅に合わせて中央固定にする */
         right: calc((100vw - 375px) / 2 + var(--toggler-offset-left));
 

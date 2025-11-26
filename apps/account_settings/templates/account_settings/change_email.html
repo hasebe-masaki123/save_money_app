@@ -1,4 +1,7 @@
 {% extends "base.html" %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('account_settings.static', filename='css/account_settings.css') }}">
+{% endblock %}
 {% block content %}
 <h2>メールアドレス変更</h2>
 
@@ -19,10 +22,9 @@
   {{ form.hidden_tag() }}
 
   <div>
-    <label>現在のメールアドレス</label><br>
-    <input type="text" value="{{ current_user.email }}" readonly>
+    <label>現在のメールアドレス : {{ current_user.email }}</label> 
   </div>
-
+<br>
   <div>
     {{ form.email.label }}<br>
     {{ form.email(size=32) }}

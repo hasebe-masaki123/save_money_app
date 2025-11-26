@@ -1,11 +1,21 @@
 
 {% extends "base.html" %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('account_settings.static', filename='css/account_settings.css') }}">
+{% endblock %}
 {% block content %}
 <h2>アカウント設定</h2>
-  <div>
+
+  <style>
+    a{
+      text-decoration: none;
+    }
+  </style>
+  
+  <div class="a"> 
     <ul style="list-style: none; padding-left: 0;"></ul>
-    <li class="menu__item" role="none"><a class="menu__link" href="{{ url_for('account_settings.change_email') }}" role="menuitem" tabindex="-1">ログインID(メールアドレスの変更)</a></li>
-    <li class="menu__item" role="none"><a class="menu__link" href="{{ url_for('account_settings.change_password') }}" role="menuitem" tabindex="-1">パスワードの変更</a></li>
+    <h4><a class="menu__link" href="{{ url_for('account_settings.change_email') }}" role="menuitem" tabindex="-1">ログインID(メールアドレスの変更)</a></li></h4>
+    <h4><a class="menu__link" href="{{ url_for('account_settings.change_password') }}" role="menuitem" tabindex="-1">パスワードの変更</a></li></h4>
     </ul>
   </div>
 <a class="btn" href="{{ url_for('top.top_page') }}">キャンセル</a>

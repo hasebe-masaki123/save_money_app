@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>メールアドレス変更</h2>
+
+<!-- エラー表示 -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">
+          <span style="color: red;">{{ message }}</span>
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+
+
+<form method="POST" action="{{ url_for('account_settings.change_email') }}">
+  {{ form.hidden_tag() }}
+
+  <div>
+    <label>現在のメールアドレス</label><br>
+    <input type="text" value="{{ current_user.email }}" readonly>
+  </div>
+
+  <div>
+    {{ form.email.label }}<br>
+    {{ form.email(size=32) }}
+  </div>
+
+  <div>
+    {{ form.submit(class="btn btn-primary") }}
+  </div>
+</form>
+<a class="btn" href="{{ url_for('account_settings.account_setting') }}">キャンセル</a>
+{% endblock %}

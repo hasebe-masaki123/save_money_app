@@ -30,7 +30,7 @@ def login():
         if user and check_password_hash(user.password_hash, password):
             login_user(user)
             flash("ログインしました。", "success")
-            return redirect(url_for("top.top"))
+            return redirect(url_for("top.top_page"))
         else:
             flash("メールアドレスまたはパスワードが間違っています。", "danger")
 

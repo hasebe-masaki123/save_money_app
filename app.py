@@ -58,6 +58,7 @@ def create_app():
     # from apps.goal import views as goal_views
     # from apps.graph import views as graph_views
     from apps.notification import views as notification_views
+    from apps.account_settings import views as account_settings_views
 
     app.register_blueprint(auth_views.auth, url_prefix="/auth")
     
@@ -71,7 +72,7 @@ def create_app():
     # app.register_blueprint(graph_views.graph)
 
     app.register_blueprint(notification_views.notification, url_prefix="/notification")
-    
+    app.register_blueprint(account_settings_views.account_settings, url_prefix="/account_settings")
 
 
 

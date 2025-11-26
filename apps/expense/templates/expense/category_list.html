@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}カテゴリ一覧{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('expense.static', filename='css/expense.css') }}">
+{% endblock %}
+
+{% block content %}
+<h2>カテゴリ一覧</h2>
+
+<div class="category-list">
+    {% if categories %}
+        <div class="row">
+            <div class="table-responsive">
+                <table class="table table-bordered align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col" class="text-center">カテゴリ名</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for category in categories %}
+                        <tr>
+                            <td class="text-center">{{ category.name }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            カテゴリが登録されていません。
+        </div>
+    {% endif %}
+</div>
+
+<div class="button-row mt-4 d-flex justify-content-between"></div>
+    <button type="button" class="btn btn-secondary"
+        onclick="location.href='{{ url_for('expense.expense') }}'">戻る</button>
+    
+    <button type="button" class="btn btn-primary"
+        onclick="location.href='{{ url_for('expense.add_category') }}'">新しいカテゴリを追加</button>
+</div>
+
+{% endblock %}

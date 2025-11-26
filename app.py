@@ -87,10 +87,12 @@ if __name__ == "__main__":
 
 
 
-import click
+
+# CLIコマンドの登録
 from flask.cli import with_appcontext
 from apps.fixed.services import generate_monthly_fixed
 
+# 固定費自動生成コマンド
 @app.cli.command("fixed:generate")
 @with_appcontext
 def generate_fixed():

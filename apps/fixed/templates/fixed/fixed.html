@@ -49,10 +49,13 @@
         <span class="text-danger">{{ error }}</span>
         {% endfor %}
     </div>
-
-    <div>
-        {{ form.submit(class="btn btn-primary w-100") }}
+        <!-- ボタン -->
+    <div class="button-row">
+        <button type="button" class="btn btn-secondary"
+            onclick="location.href='{{ url_for('top.input_menu_page') }}'">キャンセル</button>
+        {{ form.submit(class="btn btn-primary") }}
     </div>
+
 
 </form>
 

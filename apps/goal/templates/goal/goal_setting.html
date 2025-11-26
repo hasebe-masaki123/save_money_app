@@ -1,4 +1,7 @@
 {% extends "base.html" %}
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('goal.static', filename='css/goal.css') }}">
+{% endblock %}
 {% block content %}
 
 <h2>目標設定</h2>
@@ -21,8 +24,8 @@
                     期限：設定なし
                 {% endif %}
             </p>
-            <div class="d-flex justify-content-between">
-                <a href="{{url_for('top.input_menu_page')}}" class="btn">キャンセル</a>
+            <div class="bottom-fixed-buttons d-flex justify-content-between">
+                <a href="{{url_for('top.top_page')}}" class="btn">キャンセル</a>
                 <a href="{{ url_for('goal.create') }}" class="btn btn-primary mt-2">目標を編集する</a>
             </div>
 

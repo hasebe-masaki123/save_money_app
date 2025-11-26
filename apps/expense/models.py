@@ -3,7 +3,6 @@ from datetime import datetime
 from apps.auth.models import User
 
 
-
 # ==========================
 # 支出カテゴリテーブル
 # ==========================
@@ -16,8 +15,6 @@ class ExpenseCategory(db.Model):
     # --- リレーション（支出テーブルへ） ---
     expenses = db.relationship('Expense', backref='expense_category', lazy=True)
 
-    def __repr__(self):
-        return f"<ExpenseCategory {self.name}>"
 
 
 # ==========================
@@ -28,7 +25,7 @@ class Expense(db.Model):
 
     expense_id = db.Column(db.Integer, primary_key=True, autoincrement=True)  # 支出ID
 
-    # ---- 外部キー（修正ポイント） ----
+    # ---- 外部キー ----
     user_id = db.Column(
         db.Integer,
         db.ForeignKey('users.user_id'),
@@ -46,5 +43,3 @@ class Expense(db.Model):
     memo = db.Column(db.Text)  # 備考メモ
     created_at = db.Column(db.DateTime, default=datetime.now)  # 登録日時
 
-    def __repr__(self):
-        return f"<Expense {self.amount}円>"

@@ -3,23 +3,18 @@ from flask_login import login_required, current_user
 from datetime import datetime
 from app import db
 from apps.saving.models import Saving
+from apps.saving.forms import SavingForm
 
-# WTForms
-from flask_wtf import FlaskForm
-from wtforms import DateField, IntegerField, TextAreaField, SubmitField
-from wtforms.validators import DataRequired, NumberRange
 
-# --- Blueprint ---
-saving_bp = Blueprint('saving', __name__, url_prefix='/saving', template_folder='templates')
+saving_bp = Blueprint(
+    'saving', 
+    __name__, 
+    template_folder='templates',
+    static_folder='static',
+)
 
-# --- フォーム ---
-class SavingForm(FlaskForm):
-    date = DateField("日付", format="%Y-%m-%d", validators=[DataRequired()])
-    amount = IntegerField("金額", validators=[DataRequired(), NumberRange(min=0)])
-    memo = TextAreaField("メモ")
-    submit = SubmitField("登録")
 
-# --- 貯金登録 (ルートを / に変更) ---
+
 @saving_bp.route("/", methods=["GET", "POST"])
 @login_required
 def saving():

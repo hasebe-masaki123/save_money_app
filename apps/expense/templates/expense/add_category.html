@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}カテゴリ追加{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('expense.static', filename='css/expense.css') }}">
+{% endblock %}
+
+{% block content %}
+<h2>新しいカテゴリを追加</h2>
+
+<form method="POST">
+    {{ form.hidden_tag() }}
+
+    <!-- カテゴリ名 -->
+    <div class="mb-3">
+        <label for="nameField" class="form-label">カテゴリ名：</label>
+        {{ form.name(class="form-control", id="nameField", placeholder="例：食費、交通費") }}
+        {% for error in form.name.errors %}
+            <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <!-- ボタン -->
+    <div class="button-row">
+        <button type="button" class="btn btn-secondary"
+            onclick="location.href='{{ url_for('expense.category_list') }}'">キャンセル</button>
+
+        {{ form.submit(class="btn btn-primary") }}
+    </div>
+</form>
+
+{% endblock %}

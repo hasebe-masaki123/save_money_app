@@ -1,158 +1,89 @@
-<!DOCTYPE html>
-<html lang="ja">
+{% extends "base.html" %}
+{% block title %}支出の入力{% endblock %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>支出の入力</title>
-    <style>
-        body {
-            font-family: "Noto Sans JP", sans-serif;
-            max-width: 400px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('expense.static', filename='css/expense.css') }}">
+{% endblock %}
 
-        h2 {
-            text-align: center;
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
+{% block content %}
+<h2>支出の入力</h2>
 
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
+<form method="POST">
+    {{ form.hidden_tag() }}
 
-        label {
-            display: flex;
-            flex-direction: column;
-            font-size: 16px;
-        }
+    <!-- 日付 -->
+    <div class="mb-3">
+        <label for="dateField" class="form-label">日付：</label>
+        {{ form.date(class="form-control", id="dateField") }}
+        {% for error in form.date.errors %}
+            <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
 
-        input,
-        select,
-        textarea {
-            padding: 8px;
-            font-size: 16px;
-            margin-top: 5px;
-        }
+    <!-- 金額 -->
+    <div class="mb-3">
+        <label for="amountInput" class="form-label">支出額：</label>
+        {{ form.amount(class="form-control", id="amountInput") }}
+        {% for error in form.amount.errors %}
+            <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
 
-        textarea {
-            resize: vertical;
-            height: 80px;
-        }
+    <!-- メモ -->
+    <div class="mb-3">
+        <label for="memoField" class="form-label">メモ：</label>
+        {{ form.memo(class="form-control", id="memoField") }}
+        {% for error in form.memo.errors %}
+            <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
+  {{ form.category_id(id="category_id") }}
 
-        .error-message {
-            color: red;
-            font-size: 14px;
-            display: none;
-            margin-top: 4px;
-        }
-
-        .button-row {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-
-        button {
-            padding: 8px 20px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        .cancel {
-            background-color: #f0f0f0;
-        }
-
-        .submit {
-            background-color: #fff;
-        }
-    </style>
-</head>
-
-<body>
-    <h2>支出の入力</h2>
-
-    <form id="expenseForm" action="/expense" method="post">
-        <!-- ▼ CSRF トークン追加 -->
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-
-        <label>
-            日付：
-            <input type="date" name="date" required>
-        </label>
-
-        <label>
-            支出額：
-            <input type="number" name="amount" id="amountInput" required>
-            <span class="error-message" id="amountError">0以上の整数を入力してください</span>
-        </label>
-
-        <label>
-            カテゴリ：
-            <select name="category_id" id="categorySelect" required>
-                <option value="0">趣味</option>
-                <option value="1">食費</option>
-                <option value="2">交通費</option>
-                <option value="add">＋カテゴリ追加</option>
-            </select>
-        </label>
-
-        <label>
-            メモ：
-            <textarea name="memo" placeholder=""></textarea>
-        </label>
-
-        <div class="button-row">
-            <button type="button" class="cancel" onclick="location.href='{{ url_for('top.input_menu_page') }}'">キャンセル</button>
-            <button type="submit" class="submit">確定</button>
+    <div class="category-pill-group mb-3">
+        {% for c in categories %}
+        <div class="category-pill" data-id="{{ c.category_id }}">
+            {{ c.name }}
         </div>
-    </form>
+        {% endfor %}
+        
+        {% for error in form.category_id.errors %}
+            <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
 
-    <script>
-        // ▼ マイナスや数字以外を弾くバリデーション
-        const amountInput = document.getElementById('amountInput');
-        const amountError = document.getElementById('amountError');
+    <!-- カテゴリ管理ボタン -->
+    <div class="mb-3">
+        <button type="button" class="btn btn-outline-secondary btn-sm"
+            onclick="location.href='{{ url_for('expense.category_list') }}'">
+            カテゴリ一覧・管理
+        </button>
+    </div>
 
-        amountInput.addEventListener('input', () => {
-            const value = amountInput.value.trim();
 
-            if (!/^\d+(\.\d+)?$/.test(value) || parseFloat(value) < 0) {
-                amountError.style.display = 'block';
-            } else {
-                amountError.style.display = 'none';
-            }
+
+
+    <!-- ボタン -->
+    <div class="button-row">
+        <button type="button" class="btn btn-secondary"
+            onclick="location.href='{{ url_for('top.input_menu_page') }}'">キャンセル</button>
+
+        {{ form.submit(class="btn btn-primary") }}
+    </div>
+</form>
+<script>
+    const hiddenCategory = document.getElementById("category_id");
+    const categoryPills = document.querySelectorAll(".category-pill");
+
+    categoryPills.forEach(pill => {
+        pill.addEventListener("click", () => {
+
+            hiddenCategory.value = pill.dataset.id;
+
+            categoryPills.forEach(p => p.classList.remove("active"));
+            pill.classList.add("active");
         });
+    });
+</script>
 
-        // ▼ 送信時もチェック！エラーなら送信させない
-        document.getElementById('expenseForm').addEventListener('submit', (e) => {
-            const value = amountInput.value.trim();
 
-            if (!/^\d+(\.\d+)?$/.test(value) || parseFloat(value) < 0) {
-                amountError.style.display = 'block';
-                e.preventDefault();
-                alert("0以上の整数を入力してください");
-            }
-        });
-
-        // ▼ 「カテゴリ追加」選択時の処理
-        document.getElementById('categorySelect').addEventListener('change', function () {
-            if (this.value === 'add') {
-                const newCategory = prompt('新しいカテゴリ名を入力してください:');
-                if (newCategory) {
-                    const option = document.createElement('option');
-                    option.value = newCategory;
-                    option.textContent = newCategory;
-                    this.insertBefore(option, this.lastElementChild);
-                    this.value = newCategory;
-                } else {
-                    this.value = '趣味';
-                }
-            }
-        });
-    </script>
-</body>
-
-</html>
+{% endblock %}

@@ -5,8 +5,7 @@ from datetime import datetime
 
 class Fixed(db.Model):
     __tablename__ = 'fixeds'
-
-
+    
     fixed_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     name = db.Column(db.String(255), nullable=False)

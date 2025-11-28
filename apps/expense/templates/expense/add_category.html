@@ -1,12 +1,12 @@
 {% extends "base.html" %}
-{% block title %}カテゴリ追加{% endblock %}
+{% block title %}支出カテゴリの追加{% endblock %}
 
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('expense.static', filename='css/expense.css') }}">
 {% endblock %}
 
 {% block content %}
-<h2>新しいカテゴリを追加</h2>
+<h2>新しい支出カテゴリを追加</h2>
 
 <form method="POST">
     {{ form.hidden_tag() }}

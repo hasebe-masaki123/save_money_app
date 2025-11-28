@@ -7,7 +7,6 @@ html, body {
  /* ボトムナビ分の余白 */
   box-sizing: border-box;
   font-family: "Helvetica", "Arial", sans-serif, sans-serif;
-  background-color: #f9f9f9;
   color: #333;
 }
 
@@ -15,14 +14,16 @@ html, body {
 body {
   margin: 0;
   padding: 0;
-  background-color: #f0f0f0;   /* 外側背景 */
+  background-color: #fbfbfb;   /* 外側背景 */
 }
 
 /* ===== アプリ本体の箱 ===== */
 .app-wrapper {
-  width: 375px;                /* スマホサイズ */
+  width: 100%;
+  max-width: 430px;            /* iPhone 14 Pro Max等の大きめスマホにも対応 */
+  min-width: 320px;            /* iPhone SE等の小さめスマホにも対応 */
   margin: 0 auto;              /* 真ん中に配置 */
-  background-color: #fff;
+  background-color: #f7f7f7;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
   position: relative;
   overflow-x: hidden;
@@ -57,7 +58,7 @@ main {
   padding: 10px 0;
   box-shadow: 0 -2px 8px rgba(0,0,0,0.15);
   border-radius: 18px 18px 0 0;            
-  z-index: 1000;
+  z-index: 1;
 }
 
 

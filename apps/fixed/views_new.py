@@ -38,11 +38,11 @@ def fixed_add():
             )
             db.session.add(fixed)
             db.session.commit()
-
+            flash("固定費を追加しました", "success")
             return redirect(url_for("fixed.fixed"))
         except Exception as e:
             db.session.rollback()
-
+            flash("固定費の追加に失敗しました", "error")
     
     return render_template("fixed/fixed_add.html", form=form)
 
@@ -61,6 +61,7 @@ def fixed_edit(fixed_id):
 
         db.session.commit()
 
+        flash("固定費を更新しました。", "success")
         return redirect(url_for("fixed.fixed"))
 
     return render_template("fixed/fixed_edit.html", form=form, fixed_item=fixed_item)

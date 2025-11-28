@@ -29,7 +29,7 @@
     </div>
 </div>
 
-
+<!-- 月選択部分 -->
 <div class="d-flex align-items-center mb-2 w-100">
     <button id="prevMonthBtn" class="btn btn-outline-secondary me-2 flex-shrink-0">&lt;</button>
     <input type="month" id="monthSelect" value="{{ current_month | e }}" class="form-control flex-grow-1">
@@ -37,6 +37,7 @@
 </div>
 
 <script>
+    // 月変更関数
 function changeMonth(offset) {
     const monthInput = document.getElementById("monthSelect");
     let [year, month] = monthInput.value.split('-').map(Number);
@@ -64,16 +65,29 @@ document.getElementById("nextMonthBtn").addEventListener("click", () => changeMo
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
+// グラフインスタンス
 let chartInstance = null;
+// 現在のモード（初期値は支出）
 let currentMode = "expense";
 
 // --- 週別グラフ描画 ---
 function drawWeeklyGraph(labels, weeklyData) {
     const ctx = document.getElementById("weeklyGraph").getContext("2d");
+
+    // 既存のグラフがあれば破棄
     if (chartInstance) chartInstance.destroy();
 
+    // --- 種別に応じてグラフタイプを変更 ---
+    let chartType = "bar";  // デフォルト（支出）
+    
+    if (currentMode === "income") {
+        chartType = "line";     // 収入 → 折れ線
+    } else if (currentMode === "saving") {
+        chartType = "line";     // 貯金 → 折れ線
+    }
+
     chartInstance = new Chart(ctx, {
-        type: "bar",
+        type: chartType,
         data: {
             labels: labels,
             datasets: [{
@@ -81,6 +95,45 @@ function drawWeeklyGraph(labels, weeklyData) {
                 data: weeklyData,
                 backgroundColor: "rgba(54,162,235,0.7)"
             }]
+        }
+    });
+}
+
+// --- 月別グラフ描画（6か月表示） ---
+function drawMonthlyGraph(labels, monthlyData) {
+    const ctx = document.getElementById("weeklyGraph").getContext("2d");
+
+    // 既存のグラフがあれば破棄
+    if (chartInstance) chartInstance.destroy();
+
+    let chartType = "line";  // 月別は折れ線グラフ
+    let backgroundColor = "rgba(75,192,192,0.7)";
+    let borderColor = "rgba(75,192,192,1)";
+
+    if (currentMode === "saving") {
+        backgroundColor = "rgba(255,159,64,0.7)";
+        borderColor = "rgba(255,159,64,1)";
+    }
+
+    chartInstance = new Chart(ctx, {
+        type: chartType,
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "月合計",
+                data: monthlyData,
+                backgroundColor: backgroundColor,
+                borderColor: borderColor,
+                borderWidth: 2,
+                fill: false
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
         }
     });
 }
@@ -102,8 +155,11 @@ document.addEventListener("DOMContentLoaded", () => {
     reloadGraph();
 });
 
-// --- 月変更 or 表示ボタン ---
-document.getElementById("reloadBtn").addEventListener("click", reloadGraph);
+// 月選択フィールドの変更イベント
+document.getElementById("monthSelect").addEventListener("change", () => {
+    reloadGraph();
+});
+
 
 // --- Ajax 取得 ---
 async function reloadGraph() {
@@ -112,31 +168,17 @@ async function reloadGraph() {
     const res = await fetch(`/graphs/data?month=${month}&mode=${currentMode}`);
     const json = await res.json();
 
-    drawWeeklyGraph(json.week_labels, json.weekly);
+    // view_typeに応じてグラフを描画
+    if (json.view_type === "monthly") {
+        // 6か月表示（収入・貯金）
+        drawMonthlyGraph(json.labels, json.data);
+    } else {
+        // 週別表示（支出）
+        drawWeeklyGraph(json.labels, json.data);
+    }
+    
     document.getElementById("totalAmount").textContent = `￥${json.total}`;
 }
 
-// 初期表示
-drawWeeklyGraph({{ week_labels | tojson }}, {{ weekly_data | tojson }});
 </script>
-<script>
-    document.querySelectorAll(".mode-btn").forEach(btn => {
-        btn.addEventListener("click", async () => {
-    
-            // すべて非アクティブ化
-            document.querySelectorAll(".mode-btn").forEach(b => {
-                b.classList.remove("active");
-            });
-    
-            // クリックされたものを active に
-            btn.classList.add("active");
-    
-            // モード切替 & 再描画
-            currentMode = btn.dataset.mode;
-            await reloadGraph();
-        });
-    });
-</script>
-
-
 {% endblock %}

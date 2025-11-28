@@ -18,45 +18,18 @@
     {% endfor %}
 </div>
 
+<!-- 固定費追加ボタン -->
+<div class="d-grid gap-2 mb-4">
+    <button type="button" class="btn btn-primary" 
+        onclick="location.href='{{ url_for('fixed.fixed_add') }}'">
+        新しい固定費を追加
+    </button>
+</div>
 
-<hr>
-
-<h3 class="mt-4 mb-2">固定費の追加</h3>
-
-<form method="POST">
-    {{ form.hidden_tag() }}
-
-    <div class="mb-3">
-        {{ form.name.label }}<br>
-        {{ form.name(class="form-control") }}
-        {% for error in form.name.errors %}
-        <span class="text-danger">{{ error }}</span>
-        {% endfor %}
-    </div>
-
-    <div class="mb-3">
-        {{ form.billing_day.label }}<br>
-        {{ form.billing_day(class="form-control") }}
-        {% for error in form.billing_day.errors %}
-        <span class="text-danger">{{ error }}</span>
-        {% endfor %}
-    </div>
-
-    <div class="mb-3">
-        {{ form.default_amount.label }}<br>
-        {{ form.default_amount(class="form-control") }}
-        {% for error in form.default_amount.errors %}
-        <span class="text-danger">{{ error }}</span>
-        {% endfor %}
-    </div>
-        <!-- ボタン -->
-    <div class="button-row">
-        <button type="button" class="btn btn-secondary"
-            onclick="location.href='{{ url_for('top.input_menu_page') }}'">キャンセル</button>
-        {{ form.submit(class="btn btn-primary") }}
-    </div>
-
-
-</form>
+<!-- 戻るボタン -->
+<div class="button-row">
+    <button type="button" class="btn btn-secondary"
+        onclick="location.href='{{ url_for('top.input_menu_page') }}'">戻る</button>
+</div>
 
 {% endblock %}

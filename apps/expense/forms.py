@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, DateField, HiddenField, SubmitField
-from wtforms.validators import DataRequired, NumberRange, Length
+from wtforms.validators import DataRequired, NumberRange, Length, NumberRange
 from datetime import date
 
 
@@ -17,14 +17,15 @@ class ExpenseForm(FlaskForm):
         "金額",
         validators=[
             DataRequired(),
-            NumberRange(min=1),  # ← 1円以上の支出
+            NumberRange(min=1,max=1000000000),  # ← 1円以上の支出
+
         ],
     )
 
     memo = StringField(
         "メモ",
         validators=[
-            Length(max=100),  # ← Length に修正
+            Length(max=100), 
         ],
     )
 

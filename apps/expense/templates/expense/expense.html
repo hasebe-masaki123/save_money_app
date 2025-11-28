@@ -23,7 +23,7 @@
     <!-- 金額 -->
     <div class="mb-3">
         <label for="amountInput" class="form-label">支出額：</label>
-        {{ form.amount(class="form-control", id="amountInput") }}
+        {{ form.amount(class="form-control", id="amountInput", maxlength="10") }}
         {% for error in form.amount.errors %}
             <div class="text-danger">{{ error }}</div>
         {% endfor %}

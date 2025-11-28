@@ -1,6 +1,7 @@
 
 {% extends "base.html" %}
 {% block head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link rel="stylesheet" href="{{ url_for('top.static', filename='css/bootstrap.min.css') }}">
 <link rel="stylesheet" href="{{ url_for('top.static', filename='css/top.css') }}">
 {% endblock %}
@@ -36,29 +37,148 @@
         </ul>
       </nav>
       </div>
-    <div>
-          <!--今週の残金表示-->
-        <article class=""><br><br>
-          <h2>今週の残金</h2>
-          <h1>{{ balance }}円</h1>
-          <!--残金のグラフ表示-->
-          <p><img src="{{ filename  }}" alt="残金のグラフ" width="290"></p>
-        </article>
-        
-        <article class="">
-          <h2>貯金の達成度</h2>
-          <!--貯金の達成度の表示-->
-          <h1>{{ current_amount }}%</h1>
-        </article>
-    </div>
 
-    <!--目標の設定画面に飛ぶリンク-->
-      <div class=""><br>
-        <a class="goal" href="#" >目標の設定画面へ >></a>
+
+        <!-- 今週の残金表示 -->
+        <article class=""><br><br>
+          <div class="top">
+          <h2>今週の残金</h2>
+          <h1>{{ balance }}円</h1><br>
+          <div><canvas id="Chart1" width="200" height="100"></canvas></div>
+          </div>
+        </article>
+   
+
+
+
+    <style>
+      #Chart1 ,#Chart2 {
+        display: block;
+        margin: 0 auto;
+      }
+    </style>
+
+ 
+
+   <script>
+  const value = "{{balance}}"; 
+  const value2 = parseFloat("{{ balance_per }}");
+  const value3 = "{{ total_income_amount }}";
+
+  // ---- Chart1 ----
+  const COLORS = ['black'];
+
+  let color1 = value2 < 30 ? 'red' : '#A4C6FF';
+
+  const data = {
+    datasets: [{
+      data: [value2, 100 - value2],
+      backgroundColor: [color1, 'rgb(234, 234, 234)'],
+      borderWidth: 0
+    }]
+  };
+
+  const centerTextPlugin = {
+    id: 'centerText',
+    beforeDraw(chart) {
+      const {ctx, chartArea: {width, height}} = chart;
+      ctx.save();
+      ctx.font = 'bold 24px sans-serif';
+      ctx.fillStyle = 'black';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(value2 + '%', width / 2, height / 2 + 27);
+    }
+  };
+
+  const config = {
+    type: 'doughnut',
+    data: data,
+    options: {
+      responsive: false,
+      circumference: 180,
+      rotation: -90,
+      plugins: { legend: { display: false } }
+    },
+    plugins: [centerTextPlugin]
+  };
+
+  const ctx = document.getElementById('Chart1').getContext('2d');
+  new Chart(ctx, config);
+
+
+</script>
+
+
+
+    <div class="bottom">
+      <article>
+        <div class="bottom-left">
+        <h6>貯金の達成度</h6>
+        <!-- 貯金の達成度の表示 -->
+        <!-- {{ current_amount }}% -->
+        <div><canvas id="Chart2" width="100" height="100"></canvas></div>
+        </div>
+      </article>
+     
+
+
+
+  <!--目標の設定画面に飛ぶリンク-->
+  <article>
+    <a class="goal" href="#">
+      <div class="bottom-right">
+        <h6>目標詳細</h6>
+        <p>&nbsp;&nbsp;タイトル:</p>
+        <p>&nbsp;&nbsp;金額:</p>
+        <p>&nbsp;&nbsp;期日:</p>
+        <p>目標設定画面へ >></p>
       </div>
-      <div>
-        <span class="arrow -right"></span>
-      </div>
+    </a>
+  </article>
+</div> 
+
+<script>
+  // ---- Chart2 ----
+  const currentRate = parseFloat("{{ current_amount }}");  
+  const centerText2 = {
+      id: 'centerText2',
+      beforeDraw(chart) {
+        const {ctx, chartArea: {width, height}} = chart;
+        ctx.save();
+        ctx.font = 'bold 20px sans-serif';
+        ctx.fillStyle = 'black';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(currentRate + '%', width / 2, height / 2);
+      }
+    };
+
+  const data2 = {
+    datasets: [{
+      data: [currentRate, 100 - currentRate],
+      backgroundColor: ['#4CAF50', '#EEEEEE'],
+      borderWidth: 0
+    }]
+  };
+
+  const config2 = {
+    type: 'doughnut',
+    data: data2,
+    options: {
+      responsive: true,
+      cutout: '70%',
+      plugins: {
+        legend: { display: false }
+      }
+    },
+    plugins: [centerText2]
+  };
+
+  const ctx2 = document.getElementById('Chart2').getContext('2d');
+  new Chart(ctx2, config2);
+</script>
 
 
 {% endblock %}
+

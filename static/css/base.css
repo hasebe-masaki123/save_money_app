@@ -13,7 +13,7 @@ html, body {
 body {
   margin: 0;
   padding: 0;
-  background-color: #f0f0f0;   /* 外側背景 */
+  background-color: #f4f4f4;   /* 外側背景 */
 }
 
 /* ===== アプリ本体の箱 ===== */
@@ -21,7 +21,7 @@ body {
   width: 375px;                /* スマホサイズ */
   margin: 0 auto;              /* 真ん中に配置 */
   min-height: 100vh;           /* 画面いっぱいの高さ */
-  background-color: #fff;
+  background-color: #f4f4f4;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
   position: relative;
   overflow-x: hidden;
@@ -72,7 +72,7 @@ h1, h2, h3 {
   padding: 10px 0;
   box-shadow: 0 -2px 8px rgba(0,0,0,0.15);
   border-radius: 18px 18px 0 0;            
-  z-index: 1000;
+  z-index: 4000;
 }
 
 

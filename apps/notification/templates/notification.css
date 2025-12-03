@@ -2,7 +2,7 @@
 
 :root {
   --sidebar-width: 100%;
-  --background-color:#f6f9ff;
+  --background-color:#f4f4f4;
 }
 body {
   background-color: var(--background-color);

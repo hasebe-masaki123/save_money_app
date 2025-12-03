@@ -128,11 +128,16 @@
   <article>
     <a class="goal" href="#">
       <div class="bottom-right">
+
+        {% if goal_title != 0 %}
         <h6>目標詳細</h6>
-        <p>&nbsp;&nbsp;タイトル:</p>
-        <p>&nbsp;&nbsp;金額:</p>
-        <p>&nbsp;&nbsp;期日:</p>
-        <p>目標設定画面へ >></p>
+        <p>&nbsp;&nbsp;タイトル:{{ goal_title }}</p>
+        <p>&nbsp;&nbsp;目標額:{{ goal_amount }}円</p>
+        <p>&nbsp;&nbsp;期日:{{ goal_deadline }}まで</p>
+        <p class="p1">目標設定画面へ ></p>
+        {% else %}
+        <p class="p2">現在目標は設定<br>されていません</p>
+        {% endif %}
       </div>
     </a>
   </article>

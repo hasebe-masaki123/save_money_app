@@ -25,13 +25,16 @@ top = Blueprint(
 
 @top.route("/top", methods=["GET", "POST"])
 def top_page():
-    balance,balance_per, total_income_amount, total_saving_amount,_= week_balance()
+    balance,balance_per, total_income_amount, total_saving_amount,title, target_amount, deadline_at, _= week_balance()
     current_amount = SavigGoal(total_income_amount, total_saving_amount)
     return render_template(
         "top.html",
         balance=balance,
         balance_per=balance_per,
         current_amount=current_amount,
+        goal_title=title,
+        goal_amount=target_amount,
+        goal_deadline=deadline_at
     )
 
 
@@ -51,15 +54,23 @@ def week_balance():
 
     # goal = db.session.query(Goal).filter(Goal.user_id == current_user.id).first()
     # if goal:
+    #     title= goal.TARGET_AMOUNT or 0   
+    #     deadline_at= goal.TARGET_AMOUNT or 0
     #     target_amount = goal.TARGET_AMOUNT or 0
     #     current_amount = goal.CURRENT_AMOUNT or 0
     #     #今日の日付と期限日を引いて、残りの日数を求める。
     #     deadline_days = (goal.DEADLINE_AT - datetime.today()).days if goal.DEADLINE_AT else 1
     #     deadline_days = max(deadline_days, 1)  # 0除算防止
 
+
+    title ='旅行'
+    deadline_at = '12/23'#期限日
     target_amount = 2000 #目標額
+
+
     current_amount  = 1000 #今の達成額
     deadline_days = 10 #日数
+
 
     auto_saving = (target_amount - current_amount) / deadline_days or 0
     auto_saving = Decimal(auto_saving)
@@ -80,8 +91,7 @@ def week_balance():
     balance_per = balance_per.quantize(Decimal('0'), rounding=ROUND_DOWN) #小数点切り捨て
 
 
-    return balance,balance_per,total_income_amount,total_saving_amount,auto_saving
-
+    return balance, balance_per, total_income_amount, total_saving_amount, title, target_amount, deadline_at, current_amount
 
 
 

@@ -29,7 +29,6 @@ body {
 }
 
  html {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   font-size: 0.8rem;
 } 
 
@@ -173,17 +172,32 @@ p {
   line-height: 0.5;
   text-align: left; 
 }
+.p1 {
+  padding-right: 5px;
+  font-size: 10px;
+  line-height: 0.5;
+  position: absolute;
+  bottom: 70px;
+  right:490px;
+}
+.p2 {
+  padding-right: 5px;
+  font-size: 15px;
+  line-height: 1.0;
+  position: absolute; 
+  top: 71%; 
+  left: 56.8%; 
+  transform: translate(-50%, -50%);
+}
+
 
 
 
 h2 {
   color : dimgray;/*文字色*/
-  border: solid 1.5px dimgray;
   padding: 0.1em;/*文字周りの余白*/
-  /* border-radius: 0.5em;角丸 */
   text-align:center;
   width: 14rem;
-  /* ブロックごと真ん中にするとき */
   margin: auto;
   font-size: 25px;
   font-family:'GulimChe',sans-serif;
@@ -194,7 +208,6 @@ h1 {
   color:  dimgray;/*文字色*/
   text-align:center;
   width: 15rem;
-  /* ブロックごと真ん中にするとき */
   margin: auto;
   font-family:'GulimChe',sans-serif;
   font-size: 40px;
@@ -267,7 +280,7 @@ h6{
 
 }
 .notify-btn:hover{
-  background: #fff;
+  background: #f4f4f4;
   color:  dimgray;
 }
 
@@ -284,6 +297,7 @@ h6{
         right: 100;
         font-size: 13px;
         margin-left: auto;
+        
 
         /* ★ body 幅に合わせて中央固定にする */
         right: calc((100vw - 375px) / 2 + var(--toggler-offset-left));

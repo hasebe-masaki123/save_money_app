@@ -8,3 +8,4 @@ class Notification(db.Model):
     user_id = db.Column(db.Integer)
     detail = db.Column(db.String(128))
     create_at = db.Column(db.DateTime, server_default=func.now())  
+
